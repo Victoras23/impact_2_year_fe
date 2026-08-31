@@ -4,9 +4,10 @@ Magazin online de referință pentru Anul 2. Ce se vede depinde de lecția aleas
 meniul de sus (`src/shared/config/constants.js` → `LESSONS[n].shows`):
 
 - **Lecția 1** — doar „Consola API" (cele 5 verbe HTTP). Fără catalog, fără login.
-- **Lecția 2** — catalogul se încarcă din baza de date (`GET /api/products`); butonul
-  **Autentificare** din colțul din dreapta deschide fereastra de login (JWT), iar
-  **Ieși** șterge tokenul din stocarea locală.
+- **Lecția 2** — catalogul și categoriile se încarcă din baza de date; bara de filtre
+  de sub titlu folosește `GET /api/products?category=…`. Butonul **Autentificare** din
+  colțul din dreapta deschide fereastra de login (JWT), iar **Ieși** șterge tokenul
+  din stocarea locală.
 
 ## Rulare (elevi)
 **Dublu-click pe `index.html`.** Se deschide în browser — fără server, fără Node, fără
@@ -74,8 +75,9 @@ npm run dev      # build cu watch, nemimificat
 - **Adresa backend-ului / căile API** → `src/shared/config/constants.js`
   (`PRODUCTS_PATH`, `AUTH_PATHS`).
 - **Sesiunea / tokenul** → `src/entities/session/`. **Login/logout UI** → `src/features/auth/`.
-- **Încărcarea catalogului din API** → `src/entities/product/api/productApi.js`,
-  folosit de `src/pages/store/ui/StorePage.jsx`.
+- **Încărcarea catalogului / categoriilor din API** → `src/entities/product/api/productApi.js`
+  și `src/entities/category/api/categoryApi.js`, folosite de `src/pages/store/ui/StorePage.jsx`.
+- **Filtrul de categorii** → `src/features/filter-by-category/`.
 - **O lecție nouă în selector** → adăugați-o în `LESSONS` (`available: true` când e
   gata) și tratați-o în `src/pages/lesson/ui/LessonSection.jsx`
 - **Un ecran nou** → un folder nou în `src/pages/` + apel condiționat în `pages/store`
