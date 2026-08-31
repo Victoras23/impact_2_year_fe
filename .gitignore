@@ -1,0 +1,11 @@
+node_modules/
+dist/
+*.log
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# index.html is the shipped build — it IS committed on purpose.

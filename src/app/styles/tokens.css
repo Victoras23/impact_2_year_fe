@@ -1,0 +1,17 @@
+/* Tema magazinului. Modificați aici culorile / spațierile pentru un alt design. */
+:root {
+  --color-accent: #EE035C;         /* roz impact */
+  --color-accent-strong: #c60d54;
+  --color-blue: #1B4DFF;           /* albastru impact */
+  --color-ink: #14161A;
+  --color-muted: #6b7280;
+  --color-line: #e4e4e7;
+  --color-surface: #ffffff;
+  --color-page: #f4f4f5;
+  --color-ok: #1f9d55;
+  --color-ok-bg: #e7f7ee;
+  --color-bad-bg: #fdECEC;
+
+  --layout-max: 1080px;
+  --font-ui: "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}

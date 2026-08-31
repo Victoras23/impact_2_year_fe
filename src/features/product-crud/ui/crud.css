@@ -1,0 +1,6 @@
+.crud-form { display: flex; flex-direction: column; gap: 10px; }
+.crud-actions { display: flex; flex-wrap: wrap; gap: 6px; width: 100%; }
+.crud-note { width: 100%; margin: 4px 0 0; font-size: 11px; line-height: 1.5; word-break: break-all; }
+.crud-note code { background: #f0f0f1; padding: 1px 4px; }
+.crud-note--ok { color: var(--color-ok); }
+.crud-note--bad { color: var(--color-accent); }

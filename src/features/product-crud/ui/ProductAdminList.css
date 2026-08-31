@@ -1,0 +1,11 @@
+.admin-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--color-line); }
+.admin-list__row {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 12px 14px; border-bottom: 1px solid var(--color-line); background: var(--color-surface);
+}
+.admin-list__row:last-child { border-bottom: 0; }
+.admin-list__main { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 180px; }
+.admin-list__name { font-size: 14px; font-weight: 700; }
+.admin-list__meta { font-size: 11px; color: var(--color-muted); }
+.admin-list__empty { color: var(--color-muted); font-size: 13px; }
+.admin-list .crud-actions { width: auto; }

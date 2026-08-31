@@ -1,0 +1,14 @@
+@import "./tokens.css";
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--color-page); color: var(--color-ink);
+  font-family: var(--font-ui); font-size: 14px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+#root { min-height: 100vh; display: flex; flex-direction: column; }
+#root > main { flex: 1; }
+h1, h2, h3 { font-weight: 700; }
+code { font-family: var(--font-ui); }
