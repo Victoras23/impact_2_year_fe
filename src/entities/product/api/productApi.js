@@ -1,9 +1,14 @@
 import { request, joinUrl } from "../../../shared/api/index.js";
 import { PRODUCTS_PATH } from "../../../shared/config/index.js";
 
-// GET /api/products -> lista de produse din baza de date.
-export async function fetchProducts(baseUrl) {
-  const res = await request(joinUrl(baseUrl, PRODUCTS_PATH), { method: "GET" });
+// GET /api/products             -> toate produsele
+// GET /api/products?category=2  -> doar produsele din categoria 2
+export async function fetchProducts(baseUrl, categoryId) {
+  let path = PRODUCTS_PATH;
+  if (categoryId != null && categoryId !== "all") {
+    path += "?category=" + encodeURIComponent(categoryId);
+  }
+  const res = await request(joinUrl(baseUrl, path), { method: "GET" });
   if (res.error) throw new Error(res.error);
   if (!res.ok) throw new Error("Backend-ul a răspuns cu " + res.status);
   try {

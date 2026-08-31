@@ -1,0 +1,8 @@
+.category-filter { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.category-filter__chip {
+  font: inherit; font-size: 12px; font-weight: 700; cursor: pointer;
+  padding: 7px 14px; border: 1px solid var(--color-line); background: #fff; color: var(--color-ink);
+  transition: border-color .12s, background .12s, color .12s;
+}
+.category-filter__chip:hover { border-color: var(--color-ink); }
+.category-filter__chip.is-active { background: var(--color-ink); border-color: var(--color-ink); color: #fff; }

@@ -1,27 +1,39 @@
 import { useCallback, useEffect, useState } from "react";
 import { fetchProducts, seedProducts } from "../../../entities/product/index.js";
+import { fetchCategories } from "../../../entities/category/index.js";
 import { useLesson } from "../../../entities/lesson/index.js";
 import { useApiBase } from "../../../shared/api/index.js";
 import { Button } from "../../../shared/ui/index.js";
 import { ProductGrid } from "../../../widgets/product-grid/index.js";
+import { CategoryFilter } from "../../../features/filter-by-category/index.js";
 import { AddProductForm, ProductAdminList } from "../../../features/product-crud/index.js";
 import { LessonSection } from "../../lesson/index.js";
 import "./StorePage.css";
 
-// Catalogul se încarcă din backend (GET /api/products) când secțiunea e vizibilă.
+// Catalogul + categoriile se încarcă din backend când secțiunea e vizibilă.
 function useCatalog(enabled) {
   const { baseUrl } = useApiBase();
+  const [category, setCategory] = useState("all");
+  const [categories, setCategories] = useState([]);
   const [state, setState] = useState({ status: "idle", products: [], error: null });
 
-  const load = useCallback(() => {
+  const loadProducts = useCallback((cat) => {
     setState((s) => ({ ...s, status: "loading", error: null }));
-    fetchProducts(baseUrl)
+    fetchProducts(baseUrl, cat)
       .then((products) => setState({ status: "ready", products, error: null }))
       .catch((err) => setState({ status: "error", products: [], error: err.message }));
   }, [baseUrl]);
 
-  useEffect(() => { if (enabled) load(); }, [enabled, load]);
-  return { ...state, reload: load };
+  useEffect(() => {
+    if (!enabled) return;
+    fetchCategories(baseUrl).then(setCategories).catch(() => setCategories([]));
+  }, [enabled, baseUrl]);
+
+  useEffect(() => {
+    if (enabled) loadProducts(category);
+  }, [enabled, category, loadProducts]);
+
+  return { ...state, categories, category, setCategory, reload: () => loadProducts(category) };
 }
 
 export function StorePage() {
@@ -45,8 +57,18 @@ export function StorePage() {
         <section id="catalog" className="store__section">
           <div className="section-head">
             <h1>Catalog</h1>
-            <p>Produsele sunt încărcate din baza de date prin <code>GET /api/products</code>.</p>
+            <p>
+              Produsele și categoriile vin din baza de date.
+              Filtrarea folosește <code>GET /api/products?category=…</code>.
+            </p>
           </div>
+
+          <CategoryFilter
+            categories={catalog.categories}
+            value={catalog.category}
+            onChange={catalog.setCategory}
+          />
+
           {catalog.status === "loading" && <p className="store__note">Se încarcă produsele…</p>}
           {catalog.status === "error" && (
             <div className="store__error">
@@ -55,7 +77,11 @@ export function StorePage() {
               <Button variant="ghost" size="sm" onClick={catalog.reload}>Reîncearcă</Button>
             </div>
           )}
-          {catalog.status === "ready" && <ProductGrid products={catalog.products} />}
+          {catalog.status === "ready" && (
+            catalog.products.length === 0
+              ? <p className="store__note">Nicio potrivire în această categorie.</p>
+              : <ProductGrid products={catalog.products} />
+          )}
         </section>
       )}
 

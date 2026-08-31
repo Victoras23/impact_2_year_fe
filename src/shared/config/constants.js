@@ -4,8 +4,9 @@ export const APP_NAME = "impact E-COMMERCE";
 
 // Backend-ul de referință.
 export const DEFAULT_API_BASE = "http://localhost:8080";
-export const PRACTICE_PATH = "/api/practice";   // Lecția 1
-export const PRODUCTS_PATH = "/api/products";   // Lecția 2
+export const PRACTICE_PATH = "/api/practice";       // Lecția 1
+export const PRODUCTS_PATH = "/api/products";       // Lecția 2
+export const CATEGORIES_PATH = "/api/categories";   // Lecția 2
 export const AUTH_PATHS = {                       // Lecția 2
   login: "/api/auth/login",
   register: "/api/auth/register",
