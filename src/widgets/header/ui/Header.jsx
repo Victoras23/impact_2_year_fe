@@ -2,6 +2,7 @@ import { APP_NAME } from "../../../shared/config/index.js";
 import { useLesson } from "../../../entities/lesson/index.js";
 import { LessonPicker } from "../../../features/lesson-picker/index.js";
 import { ApiStatusBadge } from "../../../features/api-status/index.js";
+import { AuthButton } from "../../../features/auth/index.js";
 import { useCart } from "../../../entities/cart/index.js";
 import "./Header.css";
 
@@ -30,6 +31,7 @@ export function Header({ onOpenCart }) {
               Coș {count > 0 ? <span className="site-header__count">{count}</span> : null}
             </button>
           ) : null}
+          {shows("auth") ? <AuthButton /> : null}
         </div>
       </div>
     </header>

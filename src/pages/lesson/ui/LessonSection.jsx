@@ -9,10 +9,24 @@ export function LessonSection() {
 
   if (current.id === 1) return <Lesson1Console />;
 
+  if (current.id === 2) {
+    return (
+      <Card className="lesson-note">
+        <h2>{current.title}</h2>
+        <p>
+          Backend-ul este acum conectat la PostgreSQL. Catalogul de mai jos se încarcă
+          din baza de date (<code>GET /api/products</code>). Butonul{" "}
+          <b>Autentificare</b> din colțul din dreapta deschide fereastra de login (JWT);{" "}
+          <b>Ieși</b> șterge tokenul.
+        </p>
+      </Card>
+    );
+  }
+
   return (
-    <Card className="lesson-soon">
+    <Card className="lesson-note">
       <h2>{current.title}</h2>
-      <p>Această lecție va fi disponibilă în curând. Alege <b>Lecția 1</b> din meniul de sus.</p>
+      <p>Această lecție va fi disponibilă în curând. Alege o lecție disponibilă din meniul de sus.</p>
     </Card>
   );
 }

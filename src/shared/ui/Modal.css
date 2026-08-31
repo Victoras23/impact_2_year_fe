@@ -1,0 +1,10 @@
+.ui-modal { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; }
+.ui-modal__scrim { position: absolute; inset: 0; background: rgba(0,0,0,.4); }
+.ui-modal__panel {
+  position: relative; width: min(380px, 92vw); background: var(--color-surface);
+  border: 1px solid var(--color-line); border-top: 4px solid var(--color-accent);
+}
+.ui-modal__head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--color-line); }
+.ui-modal__head h2 { margin: 0; font-size: 16px; }
+.ui-modal__close { background: none; border: 0; font-size: 24px; line-height: 1; cursor: pointer; color: var(--color-muted); }
+.ui-modal__body { padding: 16px; }

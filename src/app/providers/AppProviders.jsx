@@ -1,5 +1,6 @@
 import { ApiBaseProvider } from "../../shared/api/index.js";
 import { LessonProvider } from "../../entities/lesson/index.js";
+import { SessionProvider } from "../../entities/session/index.js";
 import { PracticeProvider } from "../../entities/api-practice/index.js";
 import { CartProvider } from "../../entities/cart/index.js";
 
@@ -8,9 +9,11 @@ export function AppProviders({ children }) {
   return (
     <LessonProvider>
       <ApiBaseProvider>
-        <PracticeProvider>
-          <CartProvider>{children}</CartProvider>
-        </PracticeProvider>
+        <SessionProvider>
+          <PracticeProvider>
+            <CartProvider>{children}</CartProvider>
+          </PracticeProvider>
+        </SessionProvider>
       </ApiBaseProvider>
     </LessonProvider>
   );
