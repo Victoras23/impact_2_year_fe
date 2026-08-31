@@ -1,0 +1,10 @@
+.auth-button {
+  font: inherit; font-weight: 700; font-size: 13px; cursor: pointer;
+  border: 1px solid var(--color-accent); background: var(--color-accent); color: #fff;
+  padding: 8px 14px;
+}
+.auth-button:hover { background: var(--color-accent-strong); }
+.auth-button--in { display: inline-flex; align-items: center; gap: 8px; border: 0; background: none; padding: 0; }
+.auth-button__user { font-size: 12px; color: var(--color-muted); max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.auth-button__logout { font: inherit; font-weight: 700; font-size: 12px; cursor: pointer; border: 1px solid var(--color-ink); background: #fff; color: var(--color-ink); padding: 6px 12px; }
+.auth-button__logout:hover { background: var(--color-ink); color: #fff; }

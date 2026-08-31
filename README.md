@@ -1,7 +1,12 @@
 # Impact E-Commerce — Frontend
 
-Magazin online de referință pentru Anul 2. Pentru **Lecția 1** conține și o „Consolă
-API" în care elevii verifică cele 5 verbe HTTP.
+Magazin online de referință pentru Anul 2. Ce se vede depinde de lecția aleasă din
+meniul de sus (`src/shared/config/constants.js` → `LESSONS[n].shows`):
+
+- **Lecția 1** — doar „Consola API" (cele 5 verbe HTTP). Fără catalog, fără login.
+- **Lecția 2** — catalogul se încarcă din baza de date (`GET /api/products`); butonul
+  **Autentificare** din colțul din dreapta deschide fereastra de login (JWT), iar
+  **Ieși** șterge tokenul din stocarea locală.
 
 ## Rulare (elevi)
 **Dublu-click pe `index.html`.** Se deschide în browser — fără server, fără Node, fără
@@ -63,9 +68,14 @@ npm run dev      # build cu watch, nemimificat
 - **Produsele de start** → `src/entities/product/model/seed.js`
 - **Adresa implicită a backend-ului, ce răspuns e „corect"** → `src/shared/config/constants.js`
 - **Ce se vede la fiecare lecție** → `LESSONS` din `src/shared/config/constants.js`.
-  Fiecare lecție are `shows: [...]` cu secțiunile vizibile (`"catalog"`, `"admin"`,
-  `"cart"`). Consola de practică e mereu vizibilă. La Lecția 1 `shows` e gol, deci se
-  văd doar link-urile de practică. Când construiți o secțiune, adăugați cheia ei aici.
+  Fiecare lecție are `shows: [...]` cu funcțiile vizibile (`"catalog"`, `"admin"`,
+  `"cart"`, `"auth"`). Secțiunea lecției curente e mereu vizibilă. La Lecția 1 `shows`
+  e gol → doar consola de practică. Când construiți o funcție, adăugați cheia ei aici.
+- **Adresa backend-ului / căile API** → `src/shared/config/constants.js`
+  (`PRODUCTS_PATH`, `AUTH_PATHS`).
+- **Sesiunea / tokenul** → `src/entities/session/`. **Login/logout UI** → `src/features/auth/`.
+- **Încărcarea catalogului din API** → `src/entities/product/api/productApi.js`,
+  folosit de `src/pages/store/ui/StorePage.jsx`.
 - **O lecție nouă în selector** → adăugați-o în `LESSONS` (`available: true` când e
   gata) și tratați-o în `src/pages/lesson/ui/LessonSection.jsx`
 - **Un ecran nou** → un folder nou în `src/pages/` + apel condiționat în `pages/store`
