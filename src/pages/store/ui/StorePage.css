@@ -1,0 +1,11 @@
+.store { max-width: var(--layout-max); margin: 0 auto; padding: 28px 20px 0; }
+.store__section { margin-bottom: 44px; }
+.section-head { margin-bottom: 16px; }
+.section-head h1 { font-size: 24px; margin: 0 0 4px; }
+.section-head h2 { font-size: 19px; margin: 0 0 4px; }
+.section-head p { margin: 0; color: var(--color-muted); font-size: 13px; }
+.section-head code { background: #f0f0f1; padding: 1px 4px; }
+.store__admin { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 22px; align-items: start; }
+.store__admin-grid { min-width: 0; }
+.store__admin-form h3 { font-size: 14px; margin: 0 0 10px; }
+@media (max-width: 760px) { .store__admin { grid-template-columns: 1fr; } }

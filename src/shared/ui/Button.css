@@ -1,0 +1,14 @@
+.ui-btn {
+  font: inherit; font-weight: 700; cursor: pointer; border: 1px solid transparent;
+  display: inline-flex; align-items: center; gap: 8px; line-height: 1;
+  transition: background .12s, color .12s, border-color .12s;
+}
+.ui-btn--sm { padding: 6px 10px; font-size: 12px; }
+.ui-btn--md { padding: 10px 16px; font-size: 13px; }
+.ui-btn--primary { background: var(--color-accent); color: #fff; }
+.ui-btn--primary:hover { background: var(--color-accent-strong); }
+.ui-btn--dark { background: var(--color-ink); color: #fff; }
+.ui-btn--dark:hover { background: #000; }
+.ui-btn--ghost { background: transparent; color: var(--color-ink); border-color: var(--color-line); }
+.ui-btn--ghost:hover { border-color: var(--color-ink); }
+.ui-btn:disabled { opacity: .45; cursor: default; }

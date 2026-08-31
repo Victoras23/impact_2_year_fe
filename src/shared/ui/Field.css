@@ -1,0 +1,9 @@
+.ui-field { display: flex; flex-direction: column; gap: 4px; }
+.ui-field__label { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--color-muted); }
+.ui-field__hint { font-size: 11px; color: var(--color-muted); }
+.ui-input {
+  font: inherit; font-size: 13px; padding: 8px 10px;
+  border: 1px solid var(--color-line); background: #fff; color: var(--color-ink);
+}
+.ui-input:focus { outline: 2px solid var(--color-accent); outline-offset: -1px; }
+.ui-input--area { resize: vertical; }

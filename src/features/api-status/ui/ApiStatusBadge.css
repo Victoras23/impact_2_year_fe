@@ -1,0 +1,4 @@
+.api-status { background: none; border: 0; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; padding: 0; }
+.api-status__dot { width: 8px; height: 8px; border-radius: 50%; background: #a1a1aa; }
+.api-status__dot--ok { background: var(--color-ok); }
+.api-status__dot--bad { background: var(--color-accent); }
