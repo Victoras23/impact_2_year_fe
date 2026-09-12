@@ -2,6 +2,7 @@ import { APP_NAME } from "../../../shared/config/index.js";
 import { useLesson } from "../../../entities/lesson/index.js";
 import { LessonPicker } from "../../../features/lesson-picker/index.js";
 import { ApiStatusBadge } from "../../../features/api-status/index.js";
+import { ApiDocsButton } from "../../../features/api-docs/index.js";
 import { AuthButton } from "../../../features/auth/index.js";
 import { useCart } from "../../../entities/cart/index.js";
 import "./Header.css";
@@ -26,6 +27,7 @@ export function Header({ onOpenCart }) {
         </nav>
         <div className="site-header__right">
           <ApiStatusBadge />
+          {shows("swagger") ? <ApiDocsButton /> : null}
           {onOpenCart ? (
             <button className="site-header__cart" onClick={onOpenCart}>
               Coș {count > 0 ? <span className="site-header__count">{count}</span> : null}

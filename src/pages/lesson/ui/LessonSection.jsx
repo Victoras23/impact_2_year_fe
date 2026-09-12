@@ -23,6 +23,21 @@ export function LessonSection() {
     );
   }
 
+  if (current.id === 3) {
+    return (
+      <Card className="lesson-note">
+        <h2>{current.title}</h2>
+        <p>
+          Lista de produse și categoriile sunt acum ținute în <b>cache Redis</b>: prima
+          cerere lovește baza de date, următoarele vin din Redis (vezi „Încărcat în … ms"
+          și butonul <b>Golește cache-ul</b> de sub filtre). Butonul <b>Documentație API</b>
+          din bara de sus deschide <b>Swagger UI</b>. Workflow-ul Git al clasei este în
+          <code>2 Year/Lesson 3/git-workflow.md</code>.
+        </p>
+      </Card>
+    );
+  }
+
   return (
     <Card className="lesson-note">
       <h2>{current.title}</h2>
