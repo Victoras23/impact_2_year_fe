@@ -8,3 +8,8 @@
 .ui-modal__head h2 { margin: 0; font-size: 16px; }
 .ui-modal__close { background: none; border: 0; font-size: 24px; line-height: 1; cursor: pointer; color: var(--color-muted); }
 .ui-modal__body { padding: 16px; }
+.ui-modal__panel--lg {
+  width: min(1100px, 94vw); height: min(820px, 90vh);
+  display: flex; flex-direction: column;
+}
+.ui-modal__panel--lg .ui-modal__body { flex: 1; padding: 0; min-height: 0; }
