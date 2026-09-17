@@ -9,6 +9,7 @@ export const PRODUCTS_PATH = "/api/products";       // Lecția 2
 export const CATEGORIES_PATH = "/api/categories";   // Lecția 2
 export const SWAGGER_PATH = "/swagger-ui.html";     // Lecția 3
 export const CACHE_CLEAR_PATH = "/api/cache/clear"; // Lecția 3
+export const CONFIG_INFO_PATH = "/api/config/info"; // Lecția 6
 export const AUTH_PATHS = {                       // Lecția 2
   login: "/api/auth/login",
   register: "/api/auth/register",
@@ -28,7 +29,7 @@ export const LESSON = 1;
 // Lecțiile din meniul de sus.
 //   available: false  = apare în listă, dar nu se poate alege încă.
 //   shows: []         = ce secțiuni / funcții ale magazinului sunt vizibile la acea lecție.
-//                       Chei posibile: "catalog", "admin", "cart", "auth", "swagger", "cache".
+//                       Chei posibile: "catalog", "admin", "cart", "auth", "swagger", "cache", "env".
 //                       Secțiunea lecției curente (consola de practică) e mereu vizibilă.
 // Pe măsură ce construiți o secțiune, adăugați cheia ei la lecțiile de la care apare.
 export const LESSONS = [
@@ -37,6 +38,7 @@ export const LESSONS = [
   { id: 3, title: "Lecția 3 — Redis, Swagger, Git", available: true,  shows: ["catalog", "auth", "swagger", "cache"] },
   { id: 4, title: "Lecția 4 — Clean Code & SOLID",  available: true,  shows: ["catalog", "auth", "swagger", "cache"] },
   { id: 5, title: "Lecția 5 — Design Patterns",     available: true,  shows: ["catalog", "auth", "swagger", "cache"] },
+  { id: 6, title: "Lecția 6 — 12-Factor App & Config", available: true, shows: ["catalog", "auth", "swagger", "cache", "env"] },
 ];
 
 export const STORAGE_LESSON = "impact.ecom.lesson";

@@ -3,6 +3,7 @@ import { useLesson } from "../../../entities/lesson/index.js";
 import { LessonPicker } from "../../../features/lesson-picker/index.js";
 import { ApiStatusBadge } from "../../../features/api-status/index.js";
 import { ApiDocsButton } from "../../../features/api-docs/index.js";
+import { EnvBadge } from "../../../features/env-badge/index.js";
 import { AuthButton } from "../../../features/auth/index.js";
 import { useCart } from "../../../entities/cart/index.js";
 import "./Header.css";
@@ -26,6 +27,7 @@ export function Header({ onOpenCart }) {
           {shows("admin") ? <a href="#admin">Administrare</a> : null}
         </nav>
         <div className="site-header__right">
+          {shows("env") ? <EnvBadge /> : null}
           <ApiStatusBadge />
           {shows("swagger") ? <ApiDocsButton /> : null}
           {onOpenCart ? (
