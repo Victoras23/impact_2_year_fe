@@ -25662,7 +25662,8 @@ code {
   var LESSONS = [
     { id: 1, title: "Lec\u021Bia 1 \u2014 Verbe HTTP", available: true, shows: [] },
     { id: 2, title: "Lec\u021Bia 2 \u2014 Baze de date & JWT", available: true, shows: ["catalog", "auth"] },
-    { id: 3, title: "Lec\u021Bia 3 \u2014 Redis, Swagger, Git", available: true, shows: ["catalog", "auth", "swagger", "cache"] }
+    { id: 3, title: "Lec\u021Bia 3 \u2014 Redis, Swagger, Git", available: true, shows: ["catalog", "auth", "swagger", "cache"] },
+    { id: 4, title: "Lec\u021Bia 4 \u2014 Clean Code & SOLID", available: true, shows: ["catalog", "auth", "swagger", "cache"] }
   ];
   var STORAGE_LESSON = "impact.ecom.lesson";
   var PRACTICE_EXPECTATIONS = {
@@ -26625,6 +26626,29 @@ code {
           ". Workflow-ul Git al clasei este \xEEn",
           /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("code", { children: "2 Year/Lesson 3/git-workflow.md" }),
           "."
+        ] })
+      ] });
+    }
+    if (current.id === 4) {
+      return /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)(Card, { className: "lesson-note", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("h2", { children: current.title }),
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("p", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("b", { children: "Nimic nou de v\u0103zut aici" }),
+          " \u2014 lec\u021Bia asta e despre cum scrii codul, nu despre ce face el. Magazinul de mai jos arat\u0103 exact ca la Lec\u021Bia 3."
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("p", { children: [
+          "Am refactorizat ",
+          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("code", { children: "GET /api/auth/me" }),
+          ": controllerul construia singur r\u0103spunsul (",
+          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("code", { children: 'Map.of("email", ..., "roles", ...)' }),
+          ") \u2014 o \xEEnc\u0103lcare mic\u0103 a principiului responsabilit\u0103\u021Bii unice (S din SOLID). Acum ",
+          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("code", { children: "AuthController" }),
+          " ",
+          "doar ruteaz\u0103, iar ",
+          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("code", { children: "AuthService.me(email)" }),
+          " decide forma r\u0103spunsului \u0219i \xEEntoarce un ",
+          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("code", { children: "MeResponse" }),
+          " tipizat. Comportamentul e identic; toate cele 15 teste de backend trec la fel ca \xEEnainte."
         ] })
       ] });
     }

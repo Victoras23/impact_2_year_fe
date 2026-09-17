@@ -35,6 +35,7 @@ export const LESSONS = [
   { id: 1, title: "Lecția 1 — Verbe HTTP",          available: true,  shows: [] },
   { id: 2, title: "Lecția 2 — Baze de date & JWT",  available: true,  shows: ["catalog", "auth"] },
   { id: 3, title: "Lecția 3 — Redis, Swagger, Git", available: true,  shows: ["catalog", "auth", "swagger", "cache"] },
+  { id: 4, title: "Lecția 4 — Clean Code & SOLID",  available: true,  shows: ["catalog", "auth", "swagger", "cache"] },
 ];
 
 export const STORAGE_LESSON = "impact.ecom.lesson";

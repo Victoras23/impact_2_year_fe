@@ -38,6 +38,26 @@ export function LessonSection() {
     );
   }
 
+  if (current.id === 4) {
+    return (
+      <Card className="lesson-note">
+        <h2>{current.title}</h2>
+        <p>
+          <b>Nimic nou de văzut aici</b> — lecția asta e despre cum scrii codul, nu despre ce
+          face el. Magazinul de mai jos arată exact ca la Lecția 3.
+        </p>
+        <p>
+          Am refactorizat <code>GET /api/auth/me</code>: controllerul construia singur
+          răspunsul (<code>Map.of("email", ..., "roles", ...)</code>) — o încălcare mică a
+          principiului responsabilității unice (S din SOLID). Acum <code>AuthController</code>{" "}
+          doar rutează, iar <code>AuthService.me(email)</code> decide forma răspunsului și
+          întoarce un <code>MeResponse</code> tipizat. Comportamentul e identic; toate cele 15
+          teste de backend trec la fel ca înainte.
+        </p>
+      </Card>
+    );
+  }
+
   return (
     <Card className="lesson-note">
       <h2>{current.title}</h2>
