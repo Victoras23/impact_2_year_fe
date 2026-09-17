@@ -58,6 +58,28 @@ export function LessonSection() {
     );
   }
 
+  if (current.id === 5) {
+    return (
+      <Card className="lesson-note">
+        <h2>{current.title}</h2>
+        <p>
+          Uită-te la categoria <b>Accesorii</b> din catalogul de mai jos: prețurile ei sunt
+          acum tăiate, cu un preț nou lângă, și un badge <b>reducere</b> pe card. Restul
+          categoriilor rămân neschimbate.
+        </p>
+        <p>
+          Asta vine dintr-un <b>Strategy pattern</b> pe backend: fiecare regulă de discount
+          e propria clasă (<code>CategoryPercentageDiscountStrategy</code>,{" "}
+          <code>NoDiscountStrategy</code>), și Spring le injectează pe toate ca{" "}
+          <code>List&lt;DiscountStrategy&gt;</code>, ordonate cu <code>@Order</code>.{" "}
+          <code>DiscountService</code> ia pur și simplu prima care se potrivește categoriei
+          produsului — nu există niciun <code>switch</code>/<code>if-else</code> pe tipul de
+          discount. Categoria și procentul (15%) vin din config, nu din cod.
+        </p>
+      </Card>
+    );
+  }
+
   return (
     <Card className="lesson-note">
       <h2>{current.title}</h2>
