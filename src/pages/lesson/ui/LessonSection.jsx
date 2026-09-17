@@ -80,6 +80,27 @@ export function LessonSection() {
     );
   }
 
+  if (current.id === 6) {
+    return (
+      <Card className="lesson-note">
+        <h2>{current.title}</h2>
+        <p>
+          Uită-te în colțul din dreapta sus: badge-ul <b>Mediu: DEV / Mediu: PROD</b> arată
+          profilul Spring activ pe backend chiar acum (<code>GET /api/config/info</code>).
+          Apasă-l ca să reverifici după ce repornești backend-ul pe alt profil.
+        </p>
+        <p>
+          Configurația s-a mutat din cod în mediu (Factorul III din <b>12-Factor App</b>):{" "}
+          <code>application.yaml</code> mai ține doar ce e comun, iar{" "}
+          <code>application-dev.yaml</code> / <code>application-prod.yaml</code> țin ce diferă
+          (bază de date, Redis, CORS, secretul JWT). Pe <b>prod</b> nu există nicio valoare
+          implicită pentru date sensibile — dacă lipsește o variabilă de mediu, aplicația
+          refuză să pornească în loc să pornească greșit („fail fast").
+        </p>
+      </Card>
+    );
+  }
+
   return (
     <Card className="lesson-note">
       <h2>{current.title}</h2>
