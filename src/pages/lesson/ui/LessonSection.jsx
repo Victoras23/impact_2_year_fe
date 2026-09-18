@@ -101,6 +101,32 @@ export function LessonSection() {
     );
   }
 
+  if (current.id === 7) {
+    return (
+      <Card className="lesson-note">
+        <h2>{current.title}</h2>
+        <p>
+          <b>Nimic nou de văzut aici</b> — checkpoint-ul lecției e infrastructură, nu o
+          funcție nouă. Magazinul de mai jos arată exact ca la Lecția 6.
+        </p>
+        <p>
+          Tot backend-ul (Spring Boot + PostgreSQL + Redis) pornește acum cu o singură
+          comandă, <code>docker compose up --build</code>, fără nimic instalat pe laptop
+          în afară de Docker. Imaginea backend-ului e un build <b>multi-stage</b>: un
+          stage cu Maven compilează jar-ul, iar stage-ul final rulează doar jar-ul, cu un
+          JRE minimal — fără Maven, fără codul sursă, fără cache-ul de dependențe.
+        </p>
+        <p>
+          Codul nu știe că rulează în Docker: <code>docker-compose.yml</code> doar
+          setează variabilele de mediu din Lecția 6 (<code>APP_DB_HOST=postgres</code>,
+          <code>APP_REDIS_HOST=redis</code>) ca backend-ul să găsească baza de date și
+          cache-ul prin numele serviciilor din rețeaua Docker, în loc de{" "}
+          <code>localhost</code>.
+        </p>
+      </Card>
+    );
+  }
+
   return (
     <Card className="lesson-note">
       <h2>{current.title}</h2>

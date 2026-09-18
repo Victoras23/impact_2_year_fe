@@ -39,6 +39,7 @@ export const LESSONS = [
   { id: 4, title: "Lecția 4 — Clean Code & SOLID",  available: true,  shows: ["catalog", "auth", "swagger", "cache"] },
   { id: 5, title: "Lecția 5 — Design Patterns",     available: true,  shows: ["catalog", "auth", "swagger", "cache"] },
   { id: 6, title: "Lecția 6 — 12-Factor App & Config", available: true, shows: ["catalog", "auth", "swagger", "cache", "env"] },
+  { id: 7, title: "Lecția 7 — Docker & Docker Compose", available: true, shows: ["catalog", "auth", "swagger", "cache", "env"] },
 ];
 
 export const STORAGE_LESSON = "impact.ecom.lesson";
