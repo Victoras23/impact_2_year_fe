@@ -40,6 +40,7 @@ export const LESSONS = [
   { id: 5, title: "Lecția 5 — Design Patterns",     available: true,  shows: ["catalog", "auth", "swagger", "cache"] },
   { id: 6, title: "Lecția 6 — 12-Factor App & Config", available: true, shows: ["catalog", "auth", "swagger", "cache", "env"] },
   { id: 7, title: "Lecția 7 — Docker & Docker Compose", available: true, shows: ["catalog", "auth", "swagger", "cache", "env"] },
+  { id: 8, title: "Lecția 8 — Unit Testing (JUnit & Mockito)", available: true, shows: ["catalog", "auth", "swagger", "cache", "env"] },
 ];
 
 export const STORAGE_LESSON = "impact.ecom.lesson";

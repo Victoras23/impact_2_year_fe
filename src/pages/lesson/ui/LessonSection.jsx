@@ -127,6 +127,29 @@ export function LessonSection() {
     );
   }
 
+  if (current.id === 8) {
+    return (
+      <Card className="lesson-note">
+        <h2>{current.title}</h2>
+        <p>
+          <b>Nimic nou de văzut aici</b> — checkpoint-ul lecției trăiește doar în codul
+          backend-ului, nu în interfață. Magazinul de mai jos arată exact ca la Lecția 7.
+        </p>
+        <p>
+          Până acum toate testele backend-ului erau <code>@SpringBootTest</code>: pornesc
+          tot contextul Spring și ating o bază de date H2 reală — utile, dar lente (~4
+          secunde). Acum sunt și teste <b>unitare</b>: fără context Spring, fără bază de
+          date — doar dependențele fiecărui serviciu mock-uite cu <b>Mockito</b>.{" "}
+          <code>AuthServiceTest</code>, <code>ProductServiceTest</code> și{" "}
+          <code>DiscountServiceTest</code> (care testează exact regula de selecție a
+          Strategy pattern-ului din Lecția 5, izolat de strategiile reale) rulează toate
+          16 teste noi în sub 400 ms — de zece ori mai rapid decât un singur test cu
+          Spring Boot.
+        </p>
+      </Card>
+    );
+  }
+
   return (
     <Card className="lesson-note">
       <h2>{current.title}</h2>
