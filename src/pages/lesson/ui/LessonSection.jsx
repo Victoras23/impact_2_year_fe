@@ -150,6 +150,29 @@ export function LessonSection() {
     );
   }
 
+  if (current.id === 9) {
+    return (
+      <Card className="lesson-note">
+        <h2>{current.title}</h2>
+        <p>
+          <b>Nimic nou de văzut aici</b> — checkpoint-ul lecției trăiește doar în codul
+          backend-ului, nu în interfață. Magazinul de mai jos arată exact ca la Lecția 8.
+        </p>
+        <p>
+          Testele unitare din Lecția 8 mock-uiau totul, ca să testeze doar logica unui
+          serviciu, izolată. Lecția 9 testează integrarea reală: <code>AuthFlowIntegrationTest</code>{" "}
+          pornește un <b>Postgres adevărat</b>, într-un container (<b>Testcontainers</b>),
+          nu H2 — și verifică direct în baza de date că parola ajunge hash-uită, nu în
+          clar, și că un email duplicat e respins de constrângerea{" "}
+          <code>UNIQUE</code> reală, nu doar simulată. Separat, <code>ProductApiTest</code>{" "}
+          renunță la <code>MockMvc</code> (care nu iese niciodată printr-un socket) și
+          vorbește cu aplicația pornită pe un port real, cu <b>RestAssured</b> — exact cum
+          ar face Postman.
+        </p>
+      </Card>
+    );
+  }
+
   return (
     <Card className="lesson-note">
       <h2>{current.title}</h2>
