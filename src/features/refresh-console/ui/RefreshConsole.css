@@ -1,0 +1,8 @@
+.refresh-console { padding: 16px 20px; margin-top: 16px; }
+.refresh-console__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.refresh-console__head h3 { margin: 0; font-size: 15px; }
+.refresh-console__hint { color: #71717a; font-size: 13px; margin: 10px 0 0; }
+.refresh-console__list { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 6px; }
+.refresh-console__list li { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.refresh-console__label { font-size: 13px; min-width: 280px; }
+.refresh-console__value { font-size: 12px; background: #f4f4f5; padding: 2px 6px; border-radius: 4px; word-break: break-all; }
