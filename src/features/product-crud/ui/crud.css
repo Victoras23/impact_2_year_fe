@@ -4,3 +4,8 @@
 .crud-note code { background: #f0f0f1; padding: 1px 4px; }
 .crud-note--ok { color: var(--color-ok); }
 .crud-note--bad { color: var(--color-accent); }
+
+.crud-confirm { display: flex; flex-direction: column; gap: 12px; }
+.crud-confirm p { margin: 0; font-size: 13px; }
+.crud-confirm__actions { display: flex; gap: 8px; }
+.crud-confirm__inline { font-size: 12px; color: var(--color-muted); }

@@ -2,6 +2,7 @@ import { useLesson } from "../../../entities/lesson/index.js";
 import { Card } from "../../../shared/ui/index.js";
 import { Lesson1Console } from "./Lesson1Console.jsx";
 import { SecurityConsole } from "../../../features/security-console/index.js";
+import { RefreshConsole } from "../../../features/refresh-console/index.js";
 import "./LessonSection.css";
 
 // Ce se afișează pentru lecția aleasă din meniul de sus.
@@ -201,6 +202,35 @@ export function LessonSection() {
           despre ea.
         </p>
         <SecurityConsole />
+      </Card>
+    );
+  }
+
+  if (current.id === 11) {
+    return (
+      <Card className="lesson-note">
+        <h2>{current.title}</h2>
+        <p>
+          Mai jos, secțiunea <b>Administrare produse</b> face acum POST / PUT / DELETE reale
+          pe <code>/api/products</code> — dar numai dacă ești autentificat ca{" "}
+          <code>admin@impact.md</code>. Autentifică-te ca <code>user@impact.md</code> (contul
+          obișnuit) și încearcă un buton acolo: backend-ul răspunde <b>403</b>, nu doar
+          interfața te oprește — poți verifica direct în tab-ul de rețea al browserului.
+        </p>
+        <p>
+          Login-ul întoarce acum și un <b>refresh token</b>: un UUID opac, ținut într-un
+          tabel din baza de date (nu într-un JWT), ca să poată fi <b>revocat</b> — un JWT
+          stateless nu poate fi anulat înainte de expirare. Fiecare refresh <b>rotește</b>{" "}
+          tokenul: primești o pereche nouă, iar cel vechi devine inutilizabil imediat.
+          Butonul <b>Ieși</b> din colțul din dreapta sus revocă acum refresh tokenul pe
+          backend, nu doar șterge tokenul din browser.
+        </p>
+        <p>
+          Apasă <b>„Testează rotația"</b> mai jos — trimite refresh tokenul curent, primește
+          unul nou, apoi retrimite pe cel <b>vechi</b> și arată că a fost respins, direct din
+          răspunsul backend-ului.
+        </p>
+        <RefreshConsole />
       </Card>
     );
   }

@@ -13,4 +13,9 @@ async function post(baseUrl, path, body) {
 export const authApi = {
   login: (baseUrl, credentials) => post(baseUrl, AUTH_PATHS.login, credentials),
   register: (baseUrl, credentials) => post(baseUrl, AUTH_PATHS.register, credentials),
+  // Lecția 11 — refresh tokenul e opac (un UUID, nu un JWT) și ținut în baza de
+  // date pe backend, ca să poată fi revocat; rutele de mai jos sunt publice
+  // (nu cer Authorization) fiindcă tocmai refresh tokenul E acreditarea.
+  refresh: (baseUrl, refreshToken) => post(baseUrl, AUTH_PATHS.refresh, { refreshToken }),
+  logout: (baseUrl, refreshToken) => post(baseUrl, AUTH_PATHS.logout, { refreshToken }),
 };

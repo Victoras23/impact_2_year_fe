@@ -1,12 +1,15 @@
 // Client HTTP minim, folosit de toate straturile de mai sus.
 // Întoarce mereu un obiect descriptiv, nu aruncă excepții.
-export async function request(url, { method = "GET", body } = {}) {
+export async function request(url, { method = "GET", body, token } = {}) {
   const started = (performance && performance.now) ? performance.now() : Date.now();
   const options = { method, headers: {} };
   if (body !== undefined && body !== null && method !== "GET" && method !== "HEAD") {
     options.headers["Content-Type"] = "application/json";
     options.body = typeof body === "string" ? body : JSON.stringify(body);
   }
+  // Lecția 11 — rutele de administrare a produselor cer un JWT; restul
+  // apelurilor nu trimit deloc acest parametru, deci headerul lipsește.
+  if (token) options.headers["Authorization"] = "Bearer " + token;
   try {
     const res = await fetch(url, options);
     const text = await res.text();

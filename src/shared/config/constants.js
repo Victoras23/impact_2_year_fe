@@ -15,6 +15,8 @@ export const AUTH_PATHS = {                       // Lecția 2
   login: "/api/auth/login",
   register: "/api/auth/register",
   me: "/api/auth/me",
+  refresh: "/api/auth/refresh",                    // Lecția 11
+  logout: "/api/auth/logout",                      // Lecția 11
 };
 
 // Chei de stocare locală (localStorage poate lipsi pe file:// — vezi shared/lib).
@@ -44,6 +46,7 @@ export const LESSONS = [
   { id: 8, title: "Lecția 8 — Unit Testing (JUnit & Mockito)", available: true, shows: ["catalog", "auth", "swagger", "cache", "env"] },
   { id: 9, title: "Lecția 9 — Integration & API Testing", available: true, shows: ["catalog", "auth", "swagger", "cache", "env"] },
   { id: 10, title: "Lecția 10 — Securitate & OWASP Top 10", available: true, shows: ["catalog", "auth", "swagger", "cache", "env"] },
+  { id: 11, title: "Lecția 11 — Autentificare & Autorizare Avansată", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin"] },
 ];
 
 export const STORAGE_LESSON = "impact.ecom.lesson";

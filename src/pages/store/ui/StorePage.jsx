@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
-import { fetchProducts, seedProducts } from "../../../entities/product/index.js";
+import { fetchProducts } from "../../../entities/product/index.js";
 import { fetchCategories } from "../../../entities/category/index.js";
 import { useLesson } from "../../../entities/lesson/index.js";
+import { useSession } from "../../../entities/session/index.js";
 import { request, joinUrl, useApiBase } from "../../../shared/api/index.js";
 import { CACHE_CLEAR_PATH } from "../../../shared/config/index.js";
 import { Button } from "../../../shared/ui/index.js";
 import { ProductGrid } from "../../../widgets/product-grid/index.js";
 import { CategoryFilter } from "../../../features/filter-by-category/index.js";
-import { AddProductForm, ProductAdminList } from "../../../features/product-crud/index.js";
+import { ProductFormModal, ProductAdminList } from "../../../features/product-crud/index.js";
 import { LessonSection } from "../../lesson/index.js";
 import "./StorePage.css";
 
@@ -49,13 +50,12 @@ function useCatalog(enabled) {
 
 export function StorePage() {
   const { shows } = useLesson();
-  const catalog = useCatalog(shows("catalog"));
-
-  const [adminProducts, setAdminProducts] = useState(seedProducts);
-  const replace = (id, p) => setAdminProducts((s) => s.map((x) => x.id === id ? { ...x, ...p } : x));
-  const patch   = (id, p) => setAdminProducts((s) => s.map((x) => x.id === id ? { ...x, ...p } : x));
-  const remove  = (id)    => setAdminProducts((s) => s.filter((x) => x.id !== id));
-  const create  = (d)     => setAdminProducts((s) => [d, ...s]);
+  const { session } = useSession();
+  const catalog = useCatalog(shows("catalog") || shows("admin"));
+  const isAdmin = !!session && session.role === "ADMIN";
+  // null = închis, "create" = produs nou, un produs = editarea lui — un singur
+  // modal partajat de tot ecranul de administrare, nu unul per rând.
+  const [productModal, setProductModal] = useState(null);
 
   return (
     <main className="store">
@@ -104,18 +104,39 @@ export function StorePage() {
         <section id="admin" className="store__section">
           <div className="section-head">
             <h2>Administrare produse</h2>
-            <p>Fiecare acțiune trimite un verb HTTP diferit.</p>
+            <p>
+              POST / PUT / DELETE reale pe <code>/api/products</code> — doar pentru contul{" "}
+              <b>ADMIN</b> (backend-ul respinge orice altceva, indiferent ce arată interfața).
+            </p>
           </div>
-          <div className="store__admin">
-            <div className="store__admin-form">
-              <h3>Produs nou</h3>
-              <AddProductForm onCreated={create} />
+          {!isAdmin ? (
+            <p className="store__note">
+              Autentifică-te ca admin (<code>admin@impact.md</code> / <code>admin123</code>)
+              din colțul din dreapta sus ca să gestionezi produsele.
+            </p>
+          ) : (
+            <div className="store__admin">
+              <Button onClick={() => setProductModal("create")}>Adaugă produs</Button>
+              <ProductAdminList
+                products={catalog.products}
+                token={session.token}
+                onEdit={(p) => setProductModal(p)}
+                onChanged={catalog.reload}
+              />
             </div>
-            <div className="store__admin-grid">
-              <ProductAdminList products={adminProducts} onReplace={replace} onPatch={patch} onRemove={remove} />
-            </div>
-          </div>
+          )}
         </section>
+      )}
+
+      {isAdmin && (
+        <ProductFormModal
+          open={!!productModal}
+          onClose={() => setProductModal(null)}
+          token={session.token}
+          categories={catalog.categories}
+          product={productModal === "create" ? null : productModal}
+          onSaved={catalog.reload}
+        />
       )}
     </main>
   );

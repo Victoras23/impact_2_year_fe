@@ -1,21 +1,20 @@
 import { request, joinUrl } from "../../../shared/api/index.js";
-import { PRACTICE_PATH } from "../../../shared/config/index.js";
-import { matchesExpectation } from "../../../entities/api-practice/index.js";
+import { PRODUCTS_PATH } from "../../../shared/config/index.js";
 
-// La Lecția 1 toate operațiile lovesc aceeași rută de practică (/api/practice)
-// și doar verifică forma răspunsului. În lecțiile următoare fiecare funcție
-// va apela ruta reală (ex. /api/products), fără a schimba componentele.
-async function call(baseUrl, method, payload) {
-  const res = await request(joinUrl(baseUrl, PRACTICE_PATH), { method, body: payload });
-  return {
-    method, ...res,
-    passed: res.ok && matchesExpectation(method, res.text),
-  };
+// Lecția 11 — checkpoint-ul lecției: POST/PUT/DELETE reale pe /api/products,
+// doar pentru ADMIN (SecurityConfig, pe backend). Nu mai există o rută PATCH —
+// o „editare parțială" se face tot printr-un PUT cu toate câmpurile retrimise.
+async function call(baseUrl, method, token, path, payload) {
+  const res = await request(joinUrl(baseUrl, path), { method, body: payload, token });
+  let data = null;
+  try { data = JSON.parse(res.text); } catch (e) { /* ignore, ex. 204 No Content */ }
+  let message = null;
+  try { message = JSON.parse(res.text).message; } catch (e) { /* ignore */ }
+  return { method, ...res, data, message };
 }
 
 export const productCrudApi = {
-  create: (baseUrl, payload) => call(baseUrl, "POST", payload),
-  replace: (baseUrl, payload) => call(baseUrl, "PUT", payload),
-  patch:   (baseUrl, payload) => call(baseUrl, "PATCH", payload),
-  remove:  (baseUrl, payload) => call(baseUrl, "DELETE", payload),
+  create: (baseUrl, token, payload) => call(baseUrl, "POST", token, PRODUCTS_PATH, payload),
+  update: (baseUrl, token, id, payload) => call(baseUrl, "PUT", token, PRODUCTS_PATH + "/" + id, payload),
+  remove: (baseUrl, token, id) => call(baseUrl, "DELETE", token, PRODUCTS_PATH + "/" + id),
 };

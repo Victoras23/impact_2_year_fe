@@ -21,7 +21,7 @@ export function LoginModal({ open, onClose }) {
     try {
       const fn = mode === "login" ? authApi.login : authApi.register;
       const data = await fn(baseUrl, { email: email.trim(), password });
-      setSession({ token: data.token, email: data.email, role: data.role });
+      setSession({ token: data.token, refreshToken: data.refreshToken, email: data.email, role: data.role });
       setPassword("");
       onClose();
     } catch (err) {
