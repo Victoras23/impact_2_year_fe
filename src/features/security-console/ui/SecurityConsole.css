@@ -1,0 +1,10 @@
+.security-console { padding: 16px 20px; margin-top: 16px; }
+.security-console__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.security-console__head h3 { margin: 0; font-size: 15px; }
+.security-console__hint { color: #71717a; font-size: 13px; margin: 10px 0 0; }
+.security-console__results { display: grid; gap: 18px; margin-top: 14px; }
+.security-console__section-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: #52525b; margin-bottom: 8px; }
+.security-console__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.security-console__list li { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.security-console__label { font-size: 13px; min-width: 170px; }
+.security-console__value { font-size: 12px; background: #f4f4f5; padding: 2px 6px; border-radius: 4px; word-break: break-all; }

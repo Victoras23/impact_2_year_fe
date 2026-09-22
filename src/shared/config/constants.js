@@ -8,6 +8,7 @@ export const PRACTICE_PATH = "/api/practice";       // Lecția 1
 export const PRODUCTS_PATH = "/api/products";       // Lecția 2
 export const CATEGORIES_PATH = "/api/categories";   // Lecția 2
 export const SWAGGER_PATH = "/swagger-ui.html";     // Lecția 3
+export const API_DOCS_PATH = "/v3/api-docs";        // Lecția 3 (embedat în iframe din Lecția 10)
 export const CACHE_CLEAR_PATH = "/api/cache/clear"; // Lecția 3
 export const CONFIG_INFO_PATH = "/api/config/info"; // Lecția 6
 export const AUTH_PATHS = {                       // Lecția 2
@@ -42,6 +43,7 @@ export const LESSONS = [
   { id: 7, title: "Lecția 7 — Docker & Docker Compose", available: true, shows: ["catalog", "auth", "swagger", "cache", "env"] },
   { id: 8, title: "Lecția 8 — Unit Testing (JUnit & Mockito)", available: true, shows: ["catalog", "auth", "swagger", "cache", "env"] },
   { id: 9, title: "Lecția 9 — Integration & API Testing", available: true, shows: ["catalog", "auth", "swagger", "cache", "env"] },
+  { id: 10, title: "Lecția 10 — Securitate & OWASP Top 10", available: true, shows: ["catalog", "auth", "swagger", "cache", "env"] },
 ];
 
 export const STORAGE_LESSON = "impact.ecom.lesson";

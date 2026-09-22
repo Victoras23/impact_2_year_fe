@@ -1,6 +1,7 @@
 import { useLesson } from "../../../entities/lesson/index.js";
 import { Card } from "../../../shared/ui/index.js";
 import { Lesson1Console } from "./Lesson1Console.jsx";
+import { SecurityConsole } from "../../../features/security-console/index.js";
 import "./LessonSection.css";
 
 // Ce se afișează pentru lecția aleasă din meniul de sus.
@@ -169,6 +170,37 @@ export function LessonSection() {
           vorbește cu aplicația pornită pe un port real, cu <b>RestAssured</b> — exact cum
           ar face Postman.
         </p>
+      </Card>
+    );
+  }
+
+  if (current.id === 10) {
+    return (
+      <Card className="lesson-note">
+        <h2>{current.title}</h2>
+        <p>
+          O <b>revizuire de securitate</b> reală pe endpoint-urile existente, nu una
+          ipotetică — vezi <code>SECURITY_REVIEW.md</code> din backend. Cea mai interesantă
+          descoperire: <code>frameOptions</code> era dezactivat <b>global</b>, pe tot API-ul.
+          Motivul nu era prostesc — butonul <b>Documentație API</b> de mai sus chiar
+          embedează Swagger UI într-un <code>&lt;iframe&gt;</code> adevărat, așa că pagina
+          aceea CHIAR are nevoie să fie afișabilă în cadru. Problema era că remedierea se
+          aplica peste tot, nu doar acolo. Acum sunt <b>două</b> politici de securitate: rutele
+          Swagger rămân deschise la iframe, restul API-ului (produse, autentificare) e strict
+          din nou — <code>frameOptions.deny()</code>.
+        </p>
+        <p>
+          Un parametru cu tipul greșit (forma tipică a unei încercări de SQL injection)
+          întorcea un 400 cu <b>corp gol</b> — acum <code>GlobalExceptionHandler</code> îl
+          prinde și întoarce mereu <code>{"{status, message}"}</code>, ca restul API-ului.
+        </p>
+        <p>
+          Apasă <b>„Rulează verificarea"</b> mai jos — nu e o simulare: verifică live headerele
+          reale întoarse de backend și trimite chiar acel parametru „otrăvit" către{" "}
+          <code>/api/products</code>, ca să vezi cu ochii tăi eroarea curată, nu doar să citești
+          despre ea.
+        </p>
+        <SecurityConsole />
       </Card>
     );
   }
