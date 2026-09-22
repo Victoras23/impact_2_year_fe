@@ -10,11 +10,16 @@ export async function request(url, { method = "GET", body } = {}) {
   try {
     const res = await fetch(url, options);
     const text = await res.text();
+    // Lecția 10 — consola de securitate citește headerele răspunsului; un obiect
+    // simplu e mai ușor de folosit decât res.headers (un Headers iterabil).
+    const headers = {};
+    res.headers.forEach((value, key) => { headers[key] = value; });
     return {
       ok: res.ok,
       status: res.status,
       statusText: res.statusText,
       text,
+      headers,
       ms: Math.round(((performance && performance.now) ? performance.now() : Date.now()) - started),
     };
   } catch (err) {
