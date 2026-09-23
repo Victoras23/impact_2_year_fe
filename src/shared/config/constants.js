@@ -47,6 +47,7 @@ export const LESSONS = [
   { id: 9, title: "Lecția 9 — Integration & API Testing", available: true, shows: ["catalog", "auth", "swagger", "cache", "env"] },
   { id: 10, title: "Lecția 10 — Securitate & OWASP Top 10", available: true, shows: ["catalog", "auth", "swagger", "cache", "env"] },
   { id: 11, title: "Lecția 11 — Autentificare & Autorizare Avansată", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin"] },
+  { id: 12, title: "Lecția 12 — SQL Avansat & Optimizarea Query-urilor", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin"] },
 ];
 
 export const STORAGE_LESSON = "impact.ecom.lesson";

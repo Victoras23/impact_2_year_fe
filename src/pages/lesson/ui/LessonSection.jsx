@@ -235,6 +235,34 @@ export function LessonSection() {
     );
   }
 
+  if (current.id === 12) {
+    return (
+      <Card className="lesson-note">
+        <h2>{current.title}</h2>
+        <p>
+          Caută în catalogul de mai jos — câmpul nou de căutare cheamă{" "}
+          <code>GET /api/products?search=...</code>, backat de un index GIN pe trigrame
+          (<code>idx_products_name_trgm</code>), nu de un index obișnuit — un index B-tree
+          normal nu ajută la un <code>ILIKE '%...%'</code> cu wildcard la început.
+        </p>
+        <p>
+          Pe cele ~8 produse din proiect n-o să vezi nicio diferență de viteză — și asta e
+          intenționat, nu un bug: pe un tabel atât de mic, Postgres alege corect{" "}
+          <code>Seq Scan</code> chiar și cu indexul prezent, pentru că parcurgerea completă
+          e mai ieftină. Ca să vezi diferența reală (Seq Scan de ~114 ms → index de ~4.6 ms),
+          exersează întâi pe baza de date de practică din{" "}
+          <code>Lesson 12/practice-db/</code> — 200 000 de produse, populată printr-un script
+          SQL pe care îl rulezi tu, local.
+        </p>
+        <p>
+          Checkpoint-ul complet — 4 pași, fiecare cu <code>EXPLAIN ANALYZE</code> înainte și
+          după un index nou — e în <code>04_practice_queries.sql</code>, inclusiv un caz onest
+          de query pe care indexarea NU îl rezolvă.
+        </p>
+      </Card>
+    );
+  }
+
   return (
     <Card className="lesson-note">
       <h2>{current.title}</h2>

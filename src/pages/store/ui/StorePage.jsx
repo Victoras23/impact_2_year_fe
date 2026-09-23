@@ -5,9 +5,11 @@ import { useLesson } from "../../../entities/lesson/index.js";
 import { useSession } from "../../../entities/session/index.js";
 import { request, joinUrl, useApiBase } from "../../../shared/api/index.js";
 import { CACHE_CLEAR_PATH } from "../../../shared/config/index.js";
+import { useDebouncedValue } from "../../../shared/lib/index.js";
 import { Button } from "../../../shared/ui/index.js";
 import { ProductGrid } from "../../../widgets/product-grid/index.js";
 import { CategoryFilter } from "../../../features/filter-by-category/index.js";
+import { SearchBox } from "../../../features/search-products/index.js";
 import { ProductFormModal, ProductAdminList } from "../../../features/product-crud/index.js";
 import { LessonSection } from "../../lesson/index.js";
 import "./StorePage.css";
@@ -18,12 +20,14 @@ function useCatalog(enabled) {
   const { baseUrl } = useApiBase();
   const [category, setCategory] = useState("all");
   const [categories, setCategories] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+  const search = useDebouncedValue(searchInput, 400); // Lecția 12 — nu o cerere la fiecare literă
   const [state, setState] = useState({ status: "idle", products: [], error: null, ms: null });
 
-  const loadProducts = useCallback((cat) => {
+  const loadProducts = useCallback((cat, term) => {
     setState((s) => ({ ...s, status: "loading", error: null }));
     const started = performance.now();
-    fetchProducts(baseUrl, cat)
+    fetchProducts(baseUrl, cat, term)
       .then((products) => setState({
         status: "ready", products, error: null,
         ms: Math.round(performance.now() - started),
@@ -37,15 +41,19 @@ function useCatalog(enabled) {
   }, [enabled, baseUrl]);
 
   useEffect(() => {
-    if (enabled) loadProducts(category);
-  }, [enabled, category, loadProducts]);
+    if (enabled) loadProducts(category, search);
+  }, [enabled, category, search, loadProducts]);
 
   const clearCache = useCallback(async () => {
     await request(joinUrl(baseUrl, CACHE_CLEAR_PATH), { method: "POST" });
-    loadProducts(category);
-  }, [baseUrl, category, loadProducts]);
+    loadProducts(category, search);
+  }, [baseUrl, category, search, loadProducts]);
 
-  return { ...state, categories, category, setCategory, reload: () => loadProducts(category), clearCache };
+  return {
+    ...state, categories, category, setCategory,
+    searchInput, setSearchInput,
+    reload: () => loadProducts(category, search), clearCache,
+  };
 }
 
 export function StorePage() {
@@ -69,6 +77,8 @@ export function StorePage() {
             <h1>Catalog</h1>
             <p>Produsele și categoriile vin din baza de date.</p>
           </div>
+
+          <SearchBox value={catalog.searchInput} onChange={catalog.setSearchInput} />
 
           <CategoryFilter
             categories={catalog.categories}
@@ -94,7 +104,7 @@ export function StorePage() {
           )}
           {catalog.status === "ready" && (
             catalog.products.length === 0
-              ? <p className="store__note">Nicio potrivire în această categorie.</p>
+              ? <p className="store__note">Nicio potrivire{catalog.searchInput ? <> pentru „{catalog.searchInput}”</> : " în această categorie"}.</p>
               : <ProductGrid products={catalog.products} />
           )}
         </section>

@@ -1,0 +1,8 @@
+.search-box { position: relative; max-width: 320px; margin-bottom: 18px; }
+.search-box .ui-input { padding-right: 28px; }
+.search-box__clear {
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  font: inherit; font-size: 16px; line-height: 1; border: 0; background: none;
+  color: var(--color-muted); cursor: pointer; padding: 4px;
+}
+.search-box__clear:hover { color: var(--color-ink); }
