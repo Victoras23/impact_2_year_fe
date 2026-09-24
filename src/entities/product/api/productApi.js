@@ -1,6 +1,18 @@
 import { request, joinUrl } from "../../../shared/api/index.js";
 import { PRODUCTS_PATH } from "../../../shared/config/index.js";
 
+// GET /api/products/{id} -> un singur produs (Lecția 13 — acum cache-uit pe backend)
+export async function fetchProduct(baseUrl, id) {
+  const res = await request(joinUrl(baseUrl, PRODUCTS_PATH + "/" + id), { method: "GET" });
+  if (res.error) throw new Error(res.error);
+  if (!res.ok) throw new Error("Backend-ul a răspuns cu " + res.status);
+  try {
+    return JSON.parse(res.text);
+  } catch (e) {
+    throw new Error("Răspuns invalid de la backend");
+  }
+}
+
 // GET /api/products                          -> toate produsele
 // GET /api/products?category=2                -> doar produsele din categoria 2
 // GET /api/products?search=laptop              -> căutare după nume (Lecția 12)

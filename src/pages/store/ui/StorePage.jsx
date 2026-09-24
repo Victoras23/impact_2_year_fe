@@ -10,6 +10,7 @@ import { Button } from "../../../shared/ui/index.js";
 import { ProductGrid } from "../../../widgets/product-grid/index.js";
 import { CategoryFilter } from "../../../features/filter-by-category/index.js";
 import { SearchBox } from "../../../features/search-products/index.js";
+import { ProductDetailsModal } from "../../../features/product-details/index.js";
 import { ProductFormModal, ProductAdminList } from "../../../features/product-crud/index.js";
 import { LessonSection } from "../../lesson/index.js";
 import "./StorePage.css";
@@ -64,6 +65,8 @@ export function StorePage() {
   // null = închis, "create" = produs nou, un produs = editarea lui — un singur
   // modal partajat de tot ecranul de administrare, nu unul per rând.
   const [productModal, setProductModal] = useState(null);
+  // Lecția 13 — id-ul produsului al cărui detaliu e deschis (null = închis).
+  const [detailsProductId, setDetailsProductId] = useState(null);
 
   return (
     <main className="store">
@@ -105,7 +108,7 @@ export function StorePage() {
           {catalog.status === "ready" && (
             catalog.products.length === 0
               ? <p className="store__note">Nicio potrivire{catalog.searchInput ? <> pentru „{catalog.searchInput}”</> : " în această categorie"}.</p>
-              : <ProductGrid products={catalog.products} />
+              : <ProductGrid products={catalog.products} onOpenDetails={shows("details") ? setDetailsProductId : undefined} />
           )}
         </section>
       )}
@@ -148,6 +151,12 @@ export function StorePage() {
           onSaved={catalog.reload}
         />
       )}
+
+      <ProductDetailsModal
+        open={detailsProductId != null}
+        onClose={() => setDetailsProductId(null)}
+        productId={detailsProductId}
+      />
     </main>
   );
 }

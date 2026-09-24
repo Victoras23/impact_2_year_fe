@@ -32,7 +32,7 @@ export const LESSON = 1;
 // Lecțiile din meniul de sus.
 //   available: false  = apare în listă, dar nu se poate alege încă.
 //   shows: []         = ce secțiuni / funcții ale magazinului sunt vizibile la acea lecție.
-//                       Chei posibile: "catalog", "admin", "cart", "auth", "swagger", "cache", "env".
+//                       Chei posibile: "catalog", "admin", "cart", "auth", "swagger", "cache", "env", "details".
 //                       Secțiunea lecției curente (consola de practică) e mereu vizibilă.
 // Pe măsură ce construiți o secțiune, adăugați cheia ei la lecțiile de la care apare.
 export const LESSONS = [
@@ -48,6 +48,7 @@ export const LESSONS = [
   { id: 10, title: "Lecția 10 — Securitate & OWASP Top 10", available: true, shows: ["catalog", "auth", "swagger", "cache", "env"] },
   { id: 11, title: "Lecția 11 — Autentificare & Autorizare Avansată", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin"] },
   { id: 12, title: "Lecția 12 — SQL Avansat & Optimizarea Query-urilor", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin"] },
+  { id: 13, title: "Lecția 13 — Scalarea Bazei de Date & Problema N+1", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details"] },
 ];
 
 export const STORAGE_LESSON = "impact.ecom.lesson";

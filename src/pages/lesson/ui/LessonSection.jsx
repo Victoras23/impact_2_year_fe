@@ -263,6 +263,34 @@ export function LessonSection() {
     );
   }
 
+  if (current.id === 13) {
+    return (
+      <Card className="lesson-note">
+        <h2>{current.title}</h2>
+        <p>
+          Apasă pe numele unui produs din catalogul de mai jos — se deschide detaliul lui,
+          printr-un <code>GET /api/products/{"{id}"}</code> nou cache-uit pe backend (Redis,
+          cache separat de lista de produse). Apasă „Reîncarcă” — a doua cerere vine din
+          cache, nu din baza de date.
+        </p>
+        <p>
+          Al doilea checkpoint e invizibil în interfață, dar real: <code>list()</code>{" "}
+          (catalogul) lovea baza de date cu 1 query pentru produse + câte unul SEPARAT
+          pentru fiecare categorie distinctă — un N+1 clasic, confirmat cu logging SQL
+          real, nu presupus. Rezolvat cu <code>@EntityGraph</code> pe repository: acum un
+          singur query, cu <code>LEFT JOIN</code>, indiferent de câte categorii distincte
+          apar în listă.
+        </p>
+        <p>
+          Exersează întâi diferența dintre 51 de interogări separate și una singură, cu
+          JOIN, pe baza de date de practică din <code>Lesson 13/practice-db/</code> —
+          aceeași <code>optimizare-practica</code> din Lecția 12 — apoi vezi remedierea
+          reală mai jos, în cod.
+        </p>
+      </Card>
+    );
+  }
+
   return (
     <Card className="lesson-note">
       <h2>{current.title}</h2>

@@ -3,7 +3,9 @@ import { Card, Badge } from "../../../shared/ui/index.js";
 import "./ProductCard.css";
 
 // Card de produs "prezentațional": nu conține logică, primește acțiuni prin `actions`.
-export function ProductCard({ product, actions }) {
+// `onOpenDetails`, dacă e dat, face numele clickabil (Lecția 13 — deschide
+// detaliul produsului, GET /api/products/{id}).
+export function ProductCard({ product, actions, onOpenDetails }) {
   const initials = product.name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
   // Lecția 5: finalPrice vine din backend (Strategy pattern — DiscountService).
   // Lipsește la produsele locale de administrare, care nu trec prin backend.
@@ -17,7 +19,13 @@ export function ProductCard({ product, actions }) {
       </div>
       <div className="product-card__body">
         <span className="product-card__cat">{product.category}</span>
-        <h3 className="product-card__name">{product.name}</h3>
+        {onOpenDetails ? (
+          <h3 className="product-card__name product-card__name--clickable">
+            <button type="button" onClick={() => onOpenDetails(product.id)}>{product.name}</button>
+          </h3>
+        ) : (
+          <h3 className="product-card__name">{product.name}</h3>
+        )}
         <div className="product-card__row">
           {hasDiscount ? (
             <span className="product-card__price">
