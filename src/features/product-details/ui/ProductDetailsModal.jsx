@@ -5,7 +5,7 @@ import { fetchProduct } from "../../../entities/product/index.js";
 import { formatPrice } from "../../../shared/lib/index.js";
 import "./ProductDetailsModal.css";
 
-// Lecția 13 — al doilea checkpoint: GET /api/products/{id} e acum cache-uit
+// Lecția 13 — al doilea checkpoint: GET /api/v1/products/{id} e acum cache-uit
 // pe backend (Redis, cache separat "product" — vezi CacheConfig). Afișăm
 // timpul de încărcare, exact ca la catalog (Lecția 3), ca diferența dintre
 // prima cerere (bază de date) și următoarele (cache) să fie vizibilă, nu

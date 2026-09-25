@@ -28,7 +28,7 @@ export function SecurityConsole() {
       {state.kind === "done" && (
         <div className="security-console__results">
           <div>
-            <div className="security-console__section-title">Headere pe GET /api/products</div>
+            <div className="security-console__section-title">Headere pe GET /api/v1/products</div>
             <ul className="security-console__list">
               {state.headerResults.map((h) => (
                 <li key={h.key}>
@@ -59,7 +59,7 @@ export function SecurityConsole() {
 
           <div>
             <div className="security-console__section-title">
-              GET /api/products?category=1 OR 1=1
+              GET /api/v1/products?category=1 OR 1=1
             </div>
             <ul className="security-console__list">
               <li>

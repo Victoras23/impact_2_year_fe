@@ -22,6 +22,10 @@ export function ProductFormModal({ open, onClose, token, categories, product, on
   const [step, setStep] = useState("form"); // "form" | "confirm"
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState(null);
+  // Lecția 14 — o cheie nouă la fiecare deschidere a modalului în modul "creare";
+  // rămâne aceeași dacă admin-ul apasă "Da" de mai multe ori pe același formular
+  // (ex. după un eșec de rețea), ca retrimiterea să fie chiar idempotentă.
+  const [idempotencyKey, setIdempotencyKey] = useState(null);
 
   useEffect(() => {
     if (!open) return;
@@ -30,9 +34,10 @@ export function ProductFormModal({ open, onClose, token, categories, product, on
       setDescription(product.description ?? "");
       setPrice(String(product.price));
       setStock(String(product.stock));
-      // GET /api/products întoarce numele categoriei, nu id-ul — îl regăsim după nume.
-      const match = categories.find((c) => c.name === product.category);
-      setCategoryId(match ? match.id : (categories[0] ? categories[0].id : ""));
+      // Lecția 14 — GET /api/v1/products/{id} întoarce acum și categoryId, nu
+      // doar numele categoriei — nu mai trebuie ghicit prin potrivire de nume
+      // (fragil: se rupea la o categorie redenumită sau la nume duplicate).
+      setCategoryId(product.categoryId != null ? product.categoryId : (categories[0] ? categories[0].id : ""));
       setDiscountPercentage(product.discountPercentage != null ? String(product.discountPercentage) : "");
     } else {
       setName("");
@@ -41,6 +46,7 @@ export function ProductFormModal({ open, onClose, token, categories, product, on
       setStock("");
       setCategoryId(categories[0] ? categories[0].id : "");
       setDiscountPercentage("");
+      setIdempotencyKey(productCrudApi.newIdempotencyKey());
     }
     setStep("form");
     setResult(null);
@@ -62,7 +68,7 @@ export function ProductFormModal({ open, onClose, token, categories, product, on
     };
     const r = isEdit
       ? await productCrudApi.update(baseUrl, token, product.id, payload)
-      : await productCrudApi.create(baseUrl, token, payload);
+      : await productCrudApi.create(baseUrl, token, payload, idempotencyKey);
     setBusy(false);
     setResult(r);
     if (r.ok) {

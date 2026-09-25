@@ -1,8 +1,8 @@
 // Client HTTP minim, folosit de toate straturile de mai sus.
 // Întoarce mereu un obiect descriptiv, nu aruncă excepții.
-export async function request(url, { method = "GET", body, token } = {}) {
+export async function request(url, { method = "GET", body, token, headers } = {}) {
   const started = (performance && performance.now) ? performance.now() : Date.now();
-  const options = { method, headers: {} };
+  const options = { method, headers: { ...headers } };
   if (body !== undefined && body !== null && method !== "GET" && method !== "HEAD") {
     options.headers["Content-Type"] = "application/json";
     options.body = typeof body === "string" ? body : JSON.stringify(body);

@@ -1,7 +1,7 @@
 import { TextInput } from "../../../shared/ui/index.js";
 import "./SearchBox.css";
 
-// Lecția 12 — checkpoint-ul lecției: căutare (GET /api/products?search=...),
+// Lecția 12 — checkpoint-ul lecției: căutare (GET /api/v1/products?search=...),
 // backată de un index GIN pe trigrame (idx_products_name_trgm). Valoarea
 // afișată e cea tastată; căutarea reală pleacă abia după o scurtă pauză
 // (vezi useDebouncedValue în StorePage) — nu la fiecare literă.

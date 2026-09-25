@@ -3,7 +3,7 @@ import { request, joinUrl, useApiBase } from "../../../shared/api/index.js";
 import { CONFIG_INFO_PATH } from "../../../shared/config/index.js";
 
 // Lecția 6 — arată profilul Spring activ (dev/prod), citit din
-// GET /api/config/info. Se verifică automat la montare (e doar informativ,
+// GET /api/v1/config/info. Se verifică automat la montare (e doar informativ,
 // nu face parte din consola de practică a Lecției 1) și la un click, ca să
 // se poată reverifica după o repornire a backend-ului pe alt profil.
 export function useEnvInfo() {

@@ -22,7 +22,7 @@ export function EnvBadge() {
     <button
       className="env-badge"
       onClick={check}
-      title="GET /api/config/info — profilul Spring activ (dev/prod), setat prin variabile de mediu"
+      title="GET /api/v1/config/info — profilul Spring activ (dev/prod), setat prin variabile de mediu"
     >
       <Badge tone={tone}>{text}</Badge>
     </button>

@@ -17,7 +17,7 @@ export function LessonSection() {
         <h2>{current.title}</h2>
         <p>
           Backend-ul este acum conectat la PostgreSQL. Catalogul de mai jos se încarcă
-          din baza de date (<code>GET /api/products</code>). Butonul{" "}
+          din baza de date (<code>GET /api/v1/products</code>). Butonul{" "}
           <b>Autentificare</b> din colțul din dreapta deschide fereastra de login (JWT);{" "}
           <b>Ieși</b> șterge tokenul.
         </p>
@@ -49,7 +49,7 @@ export function LessonSection() {
           face el. Magazinul de mai jos arată exact ca la Lecția 3.
         </p>
         <p>
-          Am refactorizat <code>GET /api/auth/me</code>: controllerul construia singur
+          Am refactorizat <code>GET /api/v1/auth/me</code>: controllerul construia singur
           răspunsul (<code>Map.of("email", ..., "roles", ...)</code>) — o încălcare mică a
           principiului responsabilității unice (S din SOLID). Acum <code>AuthController</code>{" "}
           doar rutează, iar <code>AuthService.me(email)</code> decide forma răspunsului și
@@ -88,7 +88,7 @@ export function LessonSection() {
         <h2>{current.title}</h2>
         <p>
           Uită-te în colțul din dreapta sus: badge-ul <b>Mediu: DEV / Mediu: PROD</b> arată
-          profilul Spring activ pe backend chiar acum (<code>GET /api/config/info</code>).
+          profilul Spring activ pe backend chiar acum (<code>GET /api/v1/config/info</code>).
           Apasă-l ca să reverifici după ce repornești backend-ul pe alt profil.
         </p>
         <p>
@@ -198,7 +198,7 @@ export function LessonSection() {
         <p>
           Apasă <b>„Rulează verificarea"</b> mai jos — nu e o simulare: verifică live headerele
           reale întoarse de backend și trimite chiar acel parametru „otrăvit" către{" "}
-          <code>/api/products</code>, ca să vezi cu ochii tăi eroarea curată, nu doar să citești
+          <code>/api/v1/products</code>, ca să vezi cu ochii tăi eroarea curată, nu doar să citești
           despre ea.
         </p>
         <SecurityConsole />
@@ -212,7 +212,7 @@ export function LessonSection() {
         <h2>{current.title}</h2>
         <p>
           Mai jos, secțiunea <b>Administrare produse</b> face acum POST / PUT / DELETE reale
-          pe <code>/api/products</code> — dar numai dacă ești autentificat ca{" "}
+          pe <code>/api/v1/products</code> — dar numai dacă ești autentificat ca{" "}
           <code>admin@impact.md</code>. Autentifică-te ca <code>user@impact.md</code> (contul
           obișnuit) și încearcă un buton acolo: backend-ul răspunde <b>403</b>, nu doar
           interfața te oprește — poți verifica direct în tab-ul de rețea al browserului.
@@ -241,7 +241,7 @@ export function LessonSection() {
         <h2>{current.title}</h2>
         <p>
           Caută în catalogul de mai jos — câmpul nou de căutare cheamă{" "}
-          <code>GET /api/products?search=...</code>, backat de un index GIN pe trigrame
+          <code>GET /api/v1/products?search=...</code>, backat de un index GIN pe trigrame
           (<code>idx_products_name_trgm</code>), nu de un index obișnuit — un index B-tree
           normal nu ajută la un <code>ILIKE '%...%'</code> cu wildcard la început.
         </p>
@@ -269,7 +269,7 @@ export function LessonSection() {
         <h2>{current.title}</h2>
         <p>
           Apasă pe numele unui produs din catalogul de mai jos — se deschide detaliul lui,
-          printr-un <code>GET /api/products/{"{id}"}</code> nou cache-uit pe backend (Redis,
+          printr-un <code>GET /api/v1/products/{"{id}"}</code> nou cache-uit pe backend (Redis,
           cache separat de lista de produse). Apasă „Reîncarcă” — a doua cerere vine din
           cache, nu din baza de date.
         </p>
@@ -286,6 +286,40 @@ export function LessonSection() {
           JOIN, pe baza de date de practică din <code>Lesson 13/practice-db/</code> —
           aceeași <code>optimizare-practica</code> din Lecția 12 — apoi vezi remedierea
           reală mai jos, în cod.
+        </p>
+      </Card>
+    );
+  }
+
+  if (current.id === 14) {
+    return (
+      <Card className="lesson-note">
+        <h2>{current.title}</h2>
+        <p>
+          Tot API-ul a trecut la <code>/api/v1/...</code> — checkpoint-ul de versionare.{" "}
+          <code>/api/practice</code> (Lecția 1) a rămas neversionat intenționat: e o consolă
+          de practică, nu o parte a contractului real.
+        </p>
+        <p>
+          Catalogul de mai jos e acum <b>paginat</b> pe backend, nu doar filtrat — vezi
+          controalele de sub grilă. Poți și sorta: <code>GET /api/v1/products?sort=price,desc</code>{" "}
+          (doar <code>id</code>, <code>name</code>, <code>price</code> sunt acceptate — orice
+          alt câmp e respins cu <b>400</b>, nu trimis mai departe ca proprietate arbitrară).
+        </p>
+        <p>
+          Formatul erorilor e acum unic în tot API-ul — <code>{"{timestamp, status, error, message, path, errors}"}</code>{" "}
+          — inclusiv pentru o eroare complet neprevăzută, care înainte ajungea la pagina
+          Whitelabel implicită a Spring Boot. Deschide un produs după id (<code>Lecția 13</code>{" "}
+          — apasă pe numele lui) — răspunsul include acum <code>links</code>: <code>self</code>,{" "}
+          <code>list</code>, <code>category</code> — un exemplu de HATEOAS, nu o adoptare
+          completă a stilului în tot API-ul.
+        </p>
+        <p>
+          <b>În plus, nemenționat în curriculum:</b> formularul „Adaugă produs" din
+          Administrare trimite un header <code>Idempotency-Key</code> unic la fiecare creare —
+          dacă apeși „Da" de două ori pe același formular (ex. după un eșec de rețea), backend-ul
+          întoarce produsul deja creat în loc să creeze un al doilea (vezi{" "}
+          <code>IdempotencyService</code>, susținut de Redis).
         </p>
       </Card>
     );

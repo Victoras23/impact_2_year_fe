@@ -4,7 +4,7 @@ import "./ProductCard.css";
 
 // Card de produs "prezentațional": nu conține logică, primește acțiuni prin `actions`.
 // `onOpenDetails`, dacă e dat, face numele clickabil (Lecția 13 — deschide
-// detaliul produsului, GET /api/products/{id}).
+// detaliul produsului, GET /api/v1/products/{id}).
 export function ProductCard({ product, actions, onOpenDetails }) {
   const initials = product.name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
   // Lecția 5: finalPrice vine din backend (Strategy pattern — DiscountService).

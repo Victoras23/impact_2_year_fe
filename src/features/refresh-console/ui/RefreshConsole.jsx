@@ -22,7 +22,7 @@ export function RefreshConsole() {
 
       {isAuthed && state.kind === "idle" && (
         <p className="refresh-console__hint">
-          Trimite refresh tokenul curent la <code>POST /api/auth/refresh</code>, primește
+          Trimite refresh tokenul curent la <code>POST /api/v1/auth/refresh</code>, primește
           o pereche nouă, apoi retrimite tokenul <b>vechi</b> — direct împotriva backend-ului,
           ca să vezi rotația chiar are loc, nu doar să citești despre ea.
         </p>

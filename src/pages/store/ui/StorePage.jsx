@@ -4,7 +4,7 @@ import { fetchCategories } from "../../../entities/category/index.js";
 import { useLesson } from "../../../entities/lesson/index.js";
 import { useSession } from "../../../entities/session/index.js";
 import { request, joinUrl, useApiBase } from "../../../shared/api/index.js";
-import { CACHE_CLEAR_PATH } from "../../../shared/config/index.js";
+import { CACHE_CLEAR_PATH, DEFAULT_PAGE_SIZE } from "../../../shared/config/index.js";
 import { useDebouncedValue } from "../../../shared/lib/index.js";
 import { Button } from "../../../shared/ui/index.js";
 import { ProductGrid } from "../../../widgets/product-grid/index.js";
@@ -17,23 +17,33 @@ import "./StorePage.css";
 
 // Catalogul + categoriile se încarcă din backend. Reținem și cât a durat cererea
 // (Lecția 3: prima cerere lovește baza de date, următoarele vin din cache Redis).
+// Lecția 14 — GET /api/v1/products întoarce acum un plic de paginare, nu un
+// tablou brut; `page`/`totalPages` vin din backend (vezi PageResponse).
 function useCatalog(enabled) {
   const { baseUrl } = useApiBase();
   const [category, setCategory] = useState("all");
   const [categories, setCategories] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const search = useDebouncedValue(searchInput, 400); // Lecția 12 — nu o cerere la fiecare literă
-  const [state, setState] = useState({ status: "idle", products: [], error: null, ms: null });
+  const [page, setPage] = useState(0);
+  // Lecția 14 — size/sort trec direct către GET /api/v1/products (page/size/sort).
+  // sort === "" înseamnă "implicit" (id,asc pe backend) — nu trimitem parametrul deloc.
+  const [size, setSize] = useState(DEFAULT_PAGE_SIZE);
+  const [sort, setSort] = useState("");
+  const [state, setState] = useState({
+    status: "idle", products: [], error: null, ms: null, totalPages: 0, totalElements: 0,
+  });
 
-  const loadProducts = useCallback((cat, term) => {
+  const loadProducts = useCallback((cat, term, pageToLoad, sizeToLoad, sortToLoad) => {
     setState((s) => ({ ...s, status: "loading", error: null }));
     const started = performance.now();
-    fetchProducts(baseUrl, cat, term)
-      .then((products) => setState({
-        status: "ready", products, error: null,
+    fetchProducts(baseUrl, cat, term, { page: pageToLoad, size: sizeToLoad, sort: sortToLoad || undefined })
+      .then((pageResponse) => setState({
+        status: "ready", products: pageResponse.content, error: null,
+        totalPages: pageResponse.totalPages, totalElements: pageResponse.totalElements,
         ms: Math.round(performance.now() - started),
       }))
-      .catch((err) => setState({ status: "error", products: [], error: err.message, ms: null }));
+      .catch((err) => setState((s) => ({ ...s, status: "error", products: [], error: err.message, ms: null })));
   }, [baseUrl]);
 
   useEffect(() => {
@@ -41,19 +51,24 @@ function useCatalog(enabled) {
     fetchCategories(baseUrl).then(setCategories).catch(() => setCategories([]));
   }, [enabled, baseUrl]);
 
+  // Un filtru nou (categorie, căutare, mărime de pagină sau sortare) repornește
+  // mereu de la prima pagină — pagina 3 a unei configurări vechi n-are sens.
+  useEffect(() => { setPage(0); }, [category, search, size, sort]);
+
   useEffect(() => {
-    if (enabled) loadProducts(category, search);
-  }, [enabled, category, search, loadProducts]);
+    if (enabled) loadProducts(category, search, page, size, sort);
+  }, [enabled, category, search, page, size, sort, loadProducts]);
 
   const clearCache = useCallback(async () => {
     await request(joinUrl(baseUrl, CACHE_CLEAR_PATH), { method: "POST" });
-    loadProducts(category, search);
-  }, [baseUrl, category, search, loadProducts]);
+    loadProducts(category, search, page, size, sort);
+  }, [baseUrl, category, search, page, size, sort, loadProducts]);
 
   return {
     ...state, categories, category, setCategory,
     searchInput, setSearchInput,
-    reload: () => loadProducts(category, search), clearCache,
+    page, setPage, size, setSize, sort, setSort,
+    reload: () => loadProducts(category, search, page, size, sort), clearCache,
   };
 }
 
@@ -89,6 +104,40 @@ export function StorePage() {
             onChange={catalog.setCategory}
           />
 
+          {/* Lecția 14 — mărime de pagină (?size=) și sortare (?sort=), trimise
+              direct către GET /api/v1/products. sort e limitat la id/name/price
+              pe backend — orice altă valoare ar primi 400, deci opțiunile de
+              aici sunt exact lista albă acceptată, nu o listă arbitrară. */}
+          <div className="store__list-controls">
+            <div className="store__size-select" role="group" aria-label="Produse pe pagină">
+              {[5, 10, 20].map((n) => (
+                <button
+                  key={n}
+                  type="button"
+                  className={"store__size-chip" + (catalog.size === n ? " is-active" : "")}
+                  onClick={() => catalog.setSize(n)}
+                >
+                  {n}/pagină
+                </button>
+              ))}
+            </div>
+
+            <label className="store__sort-select">
+              Sortează după{" "}
+              <select
+                className="ui-input"
+                value={catalog.sort}
+                onChange={(e) => catalog.setSort(e.target.value)}
+              >
+                <option value="">Implicit</option>
+                <option value="name,asc">Nume (A-Z)</option>
+                <option value="name,desc">Nume (Z-A)</option>
+                <option value="price,asc">Preț (crescător)</option>
+                <option value="price,desc">Preț (descrescător)</option>
+              </select>
+            </label>
+          </div>
+
           {shows("cache") && catalog.status === "ready" && (
             <div className="store__cache">
               <span>Produsele: încărcate în <b>{catalog.ms} ms</b>.</span>
@@ -110,6 +159,32 @@ export function StorePage() {
               ? <p className="store__note">Nicio potrivire{catalog.searchInput ? <> pentru „{catalog.searchInput}”</> : " în această categorie"}.</p>
               : <ProductGrid products={catalog.products} onOpenDetails={shows("details") ? setDetailsProductId : undefined} />
           )}
+
+          {/* Lecția 14 — checkpoint: catalogul e paginat pe backend (GET
+              /api/v1/products?page=...&size=...), nu doar filtrat. Controalele
+              apar de îndată ce există mai mult de o pagină, indiferent de lecția
+              selectată — la fel cum SearchBox nu a fost legat de o singură lecție. */}
+          {catalog.status === "ready" && catalog.totalPages > 1 && (
+            <div className="store__pagination">
+              <Button
+                variant="ghost" size="sm"
+                disabled={catalog.page <= 0}
+                onClick={() => catalog.setPage((p) => Math.max(0, p - 1))}
+              >
+                ← Pagina anterioară
+              </Button>
+              <span className="store__pagination-status">
+                Pagina {catalog.page + 1} din {catalog.totalPages} ({catalog.totalElements} produse)
+              </span>
+              <Button
+                variant="ghost" size="sm"
+                disabled={catalog.page >= catalog.totalPages - 1}
+                onClick={() => catalog.setPage((p) => Math.min(catalog.totalPages - 1, p + 1))}
+              >
+                Pagina următoare →
+              </Button>
+            </div>
+          )}
         </section>
       )}
 
@@ -118,8 +193,10 @@ export function StorePage() {
           <div className="section-head">
             <h2>Administrare produse</h2>
             <p>
-              POST / PUT / DELETE reale pe <code>/api/products</code> — doar pentru contul{" "}
+              POST / PUT / DELETE reale pe <code>/api/v1/products</code> — doar pentru contul{" "}
               <b>ADMIN</b> (backend-ul respinge orice altceva, indiferent ce arată interfața).
+              Lista de mai jos arată doar pagina curentă a catalogului — folosește paginarea
+              din secțiunea Catalog ca să ajungi la restul produselor.
             </p>
           </div>
           {!isAdmin ? (

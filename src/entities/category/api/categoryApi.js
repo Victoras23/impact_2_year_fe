@@ -1,7 +1,7 @@
 import { request, joinUrl } from "../../../shared/api/index.js";
 import { CATEGORIES_PATH } from "../../../shared/config/index.js";
 
-// GET /api/categories -> lista de categorii din baza de date.
+// GET /api/v1/categories -> lista de categorii din baza de date.
 export async function fetchCategories(baseUrl) {
   const res = await request(joinUrl(baseUrl, CATEGORIES_PATH), { method: "GET" });
   if (res.error) throw new Error(res.error);
