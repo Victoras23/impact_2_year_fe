@@ -3,6 +3,7 @@ import { Card } from "../../../shared/ui/index.js";
 import { Lesson1Console } from "./Lesson1Console.jsx";
 import { SecurityConsole } from "../../../features/security-console/index.js";
 import { RefreshConsole } from "../../../features/refresh-console/index.js";
+import { RestVsGraphqlConsole } from "../../../features/rest-vs-graphql/index.js";
 import "./LessonSection.css";
 
 // Ce se afișează pentru lecția aleasă din meniul de sus.
@@ -322,6 +323,34 @@ export function LessonSection() {
           <code>IdempotencyService</code>, susținut de Redis).
         </p>
       </Card>
+    );
+  }
+
+  if (current.id === 15) {
+    return (
+      <>
+        <Card className="lesson-note">
+          <h2>{current.title}</h2>
+          <p>
+            Backend-ul are acum <b>două uși</b> către același magazin: REST-ul de până acum
+            (<code>/api/v1/...</code>) și un endpoint nou, <code>POST /graphql</code>. Ambele trec prin
+            aceleași servicii și același cache Redis — singura diferență e protocolul.
+          </p>
+          <p>
+            Deasupra catalogului de mai jos ai un comutator nou, <b>Sursa datelor</b>: aceeași grilă,
+            aceeași paginare și sortare, încărcate prin REST sau prin GraphQL. Dacă n-ai observa
+            comutatorul, n-ai ști care e care — exact ideea.
+          </p>
+          <p>
+            Consola de mai jos măsoară diferențele reale: <b>over-fetching</b> (câți octeți primești),{" "}
+            <b>under-fetching</b> (câte cereri face un ecran), <b>benchmark-ul</b> cerut de checkpoint și
+            trade-off-urile — inclusiv cele în care GraphQL pierde. Mutațiile (<code>createProduct</code>,{" "}
+            <code>updateProduct</code>, <code>deleteProduct</code>) cer rolul ADMIN, verificat cu{" "}
+            <code>@PreAuthorize</code> pe resolver, nu pe URL — în GraphQL există un singur URL.
+          </p>
+        </Card>
+        <RestVsGraphqlConsole />
+      </>
     );
   }
 

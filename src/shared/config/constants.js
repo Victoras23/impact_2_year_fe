@@ -16,6 +16,11 @@ export const SWAGGER_PATH = "/swagger-ui.html";        // Lecția 3
 export const API_DOCS_PATH = "/v3/api-docs";           // Lecția 3 (embedat în iframe din Lecția 10)
 export const CACHE_CLEAR_PATH = "/api/v1/cache/clear"; // Lecția 3 (versionat în Lecția 14)
 export const CONFIG_INFO_PATH = "/api/v1/config/info"; // Lecția 6 (versionat în Lecția 14)
+// Lecția 15 — GraphQL NU e versionat ca REST-ul (/v1): un singur URL pentru tot,
+// iar schema evoluează adăugând câmpuri noi și marcând cele vechi @deprecated,
+// nu publicând un /v2. GraphiQL (playground-ul) există doar pe profilul dev.
+export const GRAPHQL_PATH = "/graphql";                // Lecția 15
+export const GRAPHIQL_PATH = "/graphiql";              // Lecția 15
 export const AUTH_PATHS = {                          // Lecția 2
   login: "/api/v1/auth/login",
   register: "/api/v1/auth/register",
@@ -42,7 +47,7 @@ export const LESSON = 1;
 // Lecțiile din meniul de sus.
 //   available: false  = apare în listă, dar nu se poate alege încă.
 //   shows: []         = ce secțiuni / funcții ale magazinului sunt vizibile la acea lecție.
-//                       Chei posibile: "catalog", "admin", "cart", "auth", "swagger", "cache", "env", "details".
+//                       Chei posibile: "catalog", "admin", "cart", "auth", "swagger", "cache", "env", "details", "graphql".
 //                       Secțiunea lecției curente (consola de practică) e mereu vizibilă.
 // Pe măsură ce construiți o secțiune, adăugați cheia ei la lecțiile de la care apare.
 export const LESSONS = [
@@ -60,6 +65,7 @@ export const LESSONS = [
   { id: 12, title: "Lecția 12 — SQL Avansat & Optimizarea Query-urilor", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin"] },
   { id: 13, title: "Lecția 13 — Scalarea Bazei de Date & Problema N+1", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details"] },
   { id: 14, title: "Lecția 14 — Bune Practici pentru API-uri REST", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details"] },
+  { id: 15, title: "Lecția 15 — GraphQL vs. API REST", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql"] },
 ];
 
 export const STORAGE_LESSON = "impact.ecom.lesson";

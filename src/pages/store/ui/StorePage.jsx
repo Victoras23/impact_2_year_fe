@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { fetchProducts } from "../../../entities/product/index.js";
+import { fetchProducts, fetchProductsGraphQL } from "../../../entities/product/index.js";
 import { fetchCategories } from "../../../entities/category/index.js";
 import { useLesson } from "../../../entities/lesson/index.js";
 import { useSession } from "../../../entities/session/index.js";
@@ -19,7 +19,10 @@ import "./StorePage.css";
 // (Lecția 3: prima cerere lovește baza de date, următoarele vin din cache Redis).
 // Lecția 14 — GET /api/v1/products întoarce acum un plic de paginare, nu un
 // tablou brut; `page`/`totalPages` vin din backend (vezi PageResponse).
-function useCatalog(enabled) {
+// Lecția 15 — `source` alege protocolul: "rest" (GET /api/v1/products) sau
+// "graphql" (POST /graphql). Ambele fetch-uri întorc același plic, deci restul
+// paginii (grila, paginarea, admin-ul) nu se schimbă deloc.
+function useCatalog(enabled, source) {
   const { baseUrl } = useApiBase();
   const [category, setCategory] = useState("all");
   const [categories, setCategories] = useState([]);
@@ -37,14 +40,15 @@ function useCatalog(enabled) {
   const loadProducts = useCallback((cat, term, pageToLoad, sizeToLoad, sortToLoad) => {
     setState((s) => ({ ...s, status: "loading", error: null }));
     const started = performance.now();
-    fetchProducts(baseUrl, cat, term, { page: pageToLoad, size: sizeToLoad, sort: sortToLoad || undefined })
+    const fetcher = source === "graphql" ? fetchProductsGraphQL : fetchProducts;
+    fetcher(baseUrl, cat, term, { page: pageToLoad, size: sizeToLoad, sort: sortToLoad || undefined })
       .then((pageResponse) => setState({
         status: "ready", products: pageResponse.content, error: null,
         totalPages: pageResponse.totalPages, totalElements: pageResponse.totalElements,
         ms: Math.round(performance.now() - started),
       }))
       .catch((err) => setState((s) => ({ ...s, status: "error", products: [], error: err.message, ms: null })));
-  }, [baseUrl]);
+  }, [baseUrl, source]);
 
   useEffect(() => {
     if (!enabled) return;
@@ -75,7 +79,11 @@ function useCatalog(enabled) {
 export function StorePage() {
   const { shows } = useLesson();
   const { session } = useSession();
-  const catalog = useCatalog(shows("catalog") || shows("admin"));
+  // Lecția 15 — de la lecția asta catalogul poate fi încărcat și prin GraphQL.
+  // Lecțiile de dinainte rămân mereu pe REST, ca înainte.
+  const [catalogSource, setCatalogSource] = useState("rest");
+  const source = shows("graphql") ? catalogSource : "rest";
+  const catalog = useCatalog(shows("catalog") || shows("admin"), source);
   const isAdmin = !!session && session.role === "ADMIN";
   // null = închis, "create" = produs nou, un produs = editarea lui — un singur
   // modal partajat de tot ecranul de administrare, nu unul per rând.
@@ -138,9 +146,31 @@ export function StorePage() {
             </label>
           </div>
 
+          {shows("graphql") && (
+            <div className="store__source" role="group" aria-label="Sursa datelor">
+              <span>Sursa datelor:</span>
+              {[
+                { id: "rest", label: "REST · GET /api/v1/products" },
+                { id: "graphql", label: "GraphQL · POST /graphql" },
+              ].map((option) => (
+                <button
+                  key={option.id}
+                  type="button"
+                  className={"store__size-chip" + (catalogSource === option.id ? " is-active" : "")}
+                  onClick={() => setCatalogSource(option.id)}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          )}
+
           {shows("cache") && catalog.status === "ready" && (
             <div className="store__cache">
-              <span>Produsele: încărcate în <b>{catalog.ms} ms</b>.</span>
+              <span>
+                Produsele: încărcate în <b>{catalog.ms} ms</b>
+                {shows("graphql") && <> prin <b>{source === "graphql" ? "GraphQL" : "REST"}</b></>}.
+              </span>
               <Button variant="ghost" size="sm" onClick={catalog.reload}>Cere din nou (din cache)</Button>
               <Button variant="ghost" size="sm" onClick={catalog.clearCache}>Golește cache-ul (apoi din baza de date)</Button>
             </div>
