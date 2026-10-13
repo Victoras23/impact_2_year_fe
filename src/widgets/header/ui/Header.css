@@ -1,5 +1,5 @@
 .site-header { position: sticky; top: 0; z-index: 20; background: var(--color-surface); border-bottom: 1px solid var(--color-line); }
-.site-header__inner { max-width: var(--layout-max); margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; gap: 18px; }
+.site-header__inner { margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; justify-content: center; gap: 18px; }
 .site-header__brand { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; color: var(--color-ink); font-weight: 700; }
 .site-header__b1 { font-size: 16px; }
 .site-header__b2 { background: var(--color-accent); color: #fff; font-size: 11px; padding: 2px 6px; letter-spacing: .04em; }

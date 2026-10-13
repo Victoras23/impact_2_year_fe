@@ -12,6 +12,7 @@ import { CategoryFilter } from "../../../features/filter-by-category/index.js";
 import { SearchBox } from "../../../features/search-products/index.js";
 import { ProductDetailsModal } from "../../../features/product-details/index.js";
 import { ProductFormModal, ProductAdminList } from "../../../features/product-crud/index.js";
+import { MyOrders } from "../../../features/my-orders/index.js";
 import { LessonSection } from "../../lesson/index.js";
 import "./StorePage.css";
 
@@ -215,6 +216,20 @@ export function StorePage() {
               </Button>
             </div>
           )}
+        </section>
+      )}
+
+      {shows("orders") && (
+        <section id="orders" className="store__section">
+          <div className="section-head">
+            <h2>Comenzile mele</h2>
+            <p>
+              <code>POST /api/v1/orders</code> răspunde imediat cu <b>202 Accepted</b> și status <b>PENDING</b>. Comanda
+              e confirmată în fundal de un consumator RabbitMQ (pe <code>backend-1</code> sau <code>backend-2</code>),
+              care scade stocul — sau o respinge, dacă nu ajunge.
+            </p>
+          </div>
+          <MyOrders />
         </section>
       )}
 

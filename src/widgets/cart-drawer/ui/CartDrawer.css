@@ -10,3 +10,7 @@
 .cart-foot__row { display: flex; justify-content: space-between; font-size: 15px; margin-bottom: 10px; }
 .cart-foot__cta { width: 100%; justify-content: center; }
 .cart-foot__ok { font-size: 12px; color: var(--color-ok); margin: 0; }
+
+/* Lecția 18 */
+.cart-foot__err { color: var(--color-accent); font-size: 13px; margin: 0 0 10px; }
+.cart-foot__hint { color: #71717a; font-size: 13px; margin: 0; }

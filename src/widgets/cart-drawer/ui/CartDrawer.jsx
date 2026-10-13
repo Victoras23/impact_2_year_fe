@@ -1,20 +1,56 @@
 import { useState } from "react";
 import { Drawer, Button } from "../../../shared/ui/index.js";
 import { formatPrice } from "../../../shared/lib/index.js";
+import { useApiBase } from "../../../shared/api/index.js";
 import { useCart } from "../../../entities/cart/index.js";
+import { useLesson } from "../../../entities/lesson/index.js";
+import { useSession } from "../../../entities/session/index.js";
+import { placeOrder, notifyOrdersChanged } from "../../../entities/order/index.js";
 import "./CartDrawer.css";
 
 export function CartDrawer({ open, onClose }) {
   const { items, setQty, remove, clear, total, count } = useCart();
-  const [placed, setPlaced] = useState(false);
+  const { shows } = useLesson();
+  const { token, isAuthed } = useSession();
+  const { baseUrl } = useApiBase();
+  const [result, setResult] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const realOrders = shows("orders");
+
+  // Lecția 18 — comanda pleacă la backend. Răspunsul vine imediat (202 + PENDING):
+  // confirmarea o face consumatorul RabbitMQ, în fundal — urmărește-o în „Comenzile mele”.
+  async function checkout() {
+    if (!realOrders) { setResult({ kind: "local" }); clear(); return; }
+    setBusy(true);
+    const res = await placeOrder(baseUrl, token, items);
+    setBusy(false);
+    if (res.status === 202) {
+      setResult({ kind: "ok", order: res.data, ms: res.ms });
+      clear();
+      notifyOrdersChanged();
+    } else {
+      setResult({ kind: "error", status: res.status, message: (res.data && res.data.message) || "backend-ul nu răspunde" });
+    }
+  }
 
   const footer = (
     <div className="cart-foot">
       <div className="cart-foot__row"><span>Total</span><b>{formatPrice(total)}</b></div>
-      {placed
-        ? <p className="cart-foot__ok">Comandă înregistrată local. (În Lecția 2 o vom trimite la backend.)</p>
-        : <Button className="cart-foot__cta" disabled={!count}
-                  onClick={() => { setPlaced(true); clear(); }}>Finalizează comanda</Button>}
+      {result && result.kind === "local" && <p className="cart-foot__ok">Comandă înregistrată local.</p>}
+      {result && result.kind === "ok" && (
+        <p className="cart-foot__ok">
+          Comanda #{result.order.id} a fost primită în {result.ms} ms — status <b>{result.order.status}</b>.
+          Confirmarea vine din RabbitMQ: urmărește-o în „Comenzile mele”.
+        </p>
+      )}
+      {result && result.kind === "error" && (
+        <p className="cart-foot__err">Eroare {result.status || ""}: {result.message}</p>
+      )}
+      {realOrders && !isAuthed
+        ? <p className="cart-foot__hint">Autentifică-te (dreapta sus) ca să plasezi comanda.</p>
+        : <Button className="cart-foot__cta" disabled={!count || busy} onClick={checkout}>
+            {busy ? "Se trimite…" : realOrders ? "Plasează comanda" : "Finalizează comanda"}
+          </Button>}
     </div>
   );
 

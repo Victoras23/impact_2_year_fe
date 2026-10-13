@@ -1,0 +1,25 @@
+.mq { padding: 16px 20px; margin-top: 16px; }
+.mq__head h3 { margin: 0; font-size: 15px; }
+.mq__panel { border-top: 1px solid #ececef; margin-top: 14px; padding-top: 14px; }
+.mq__panel-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.mq__panel-head h4 { margin: 0; font-size: 14px; flex: 1; }
+.mq__step { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px;
+  border-radius: 50%; background: var(--color-accent); color: #fff; font-size: 12px; font-weight: 700; }
+.mq__hint { color: #71717a; font-size: 13px; margin: 8px 0 0; }
+.mq__hint--bad { color: var(--color-accent); }
+.mq__stats { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 6px; font-size: 13px; }
+.mq__table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
+.mq__table th, .mq__table td { text-align: left; padding: 4px 6px; border-bottom: 1px solid #f4f4f5; }
+.mq__table th { color: #71717a; font-weight: 600; }
+.mq__inst { display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 6px; border-radius: 4px; margin-right: 4px; color: #fff; }
+.mq__inst.is-a, .mq__cell.is-a { background: #1f9d55; color: #fff; }
+.mq__inst.is-b, .mq__cell.is-b { background: #2f3c7e; color: #fff; }
+.mq__inst.is-unknown, .mq__cell.is-unknown { background: #a1a1aa; color: #fff; }
+.mq__cell.is-pending { background: #e4e4e7; color: #52525b; }
+.mq__strip { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
+.mq__cell { min-width: 30px; height: 22px; padding: 0 4px; border-radius: 4px; font-size: 11px; font-weight: 700;
+  display: inline-flex; align-items: center; justify-content: center; }
+.mq__bars { display: flex; align-items: flex-end; gap: 4px; height: 70px; margin-top: 10px; padding: 0 2px;
+  border-bottom: 1px solid #e4e4e7; }
+.mq__bar { position: relative; width: 22px; min-height: 2px; background: var(--color-accent); border-radius: 3px 3px 0 0; }
+.mq__bar i { position: absolute; top: -16px; left: 0; right: 0; text-align: center; font-size: 10px; font-style: normal; color: #52525b; }

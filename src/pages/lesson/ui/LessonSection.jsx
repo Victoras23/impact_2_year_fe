@@ -6,6 +6,7 @@ import { RefreshConsole } from "../../../features/refresh-console/index.js";
 import { RestVsGraphqlConsole } from "../../../features/rest-vs-graphql/index.js";
 import { RateLimitConsole } from "../../../features/rate-limit-console/index.js";
 import { LoadBalancerConsole } from "../../../features/lb-console/index.js";
+import { MessageQueueConsole } from "../../../features/mq-console/index.js";
 import "./LessonSection.css";
 
 // Ce se afișează pentru lecția aleasă din meniul de sus.
@@ -404,6 +405,32 @@ export function LessonSection() {
           </p>
         </Card>
         <LoadBalancerConsole />
+      </>
+    );
+  }
+
+  if (current.id === 18) {
+    return (
+      <>
+        <Card className="lesson-note">
+          <h2>{current.title}</h2>
+          <p>
+            Până acum, fiecare cerere făcea toată munca înainte să răspundă. Azi, plasarea comenzii face doar partea
+            rapidă: salvează comanda ca <b>PENDING</b>, pune un mesaj în <b>RabbitMQ</b> și răspunde imediat cu{" "}
+            <code>202 Accepted</code>. Partea lentă — verificarea și scăderea stocului — o face un <b>consumator</b>,
+            în fundal, care schimbă statusul în <b>CONFIRMED</b> sau <b>REJECTED</b>.
+          </p>
+          <p>
+            Mesajul trece printr-un exchange <b>fanout</b> (<code>orders.placed</code>) în două cozi: confirmarea și
+            notificarea („emailul”). Ambele instanțe din Lecția 17 ascultă aceleași cozi (<b>competing consumers</b>),
+            deci comenzile se împart între ele. Un mesaj care eșuează de 3 ori ajunge în <b>dead-letter queue</b>.
+          </p>
+          <p>
+            Încearcă în magazin: adaugă produse în coș, apasă <b>Plasează comanda</b> și urmărește-o în „Comenzile mele”.
+            Apoi rulează consola de mai jos.
+          </p>
+        </Card>
+        <MessageQueueConsole />
       </>
     );
   }

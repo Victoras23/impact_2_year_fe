@@ -1,0 +1,5 @@
+.orders__bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 13px; color: #71717a; }
+.orders__table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; background: #fff; }
+.orders__table th, .orders__table td { text-align: left; padding: 8px; border-bottom: 1px solid #f0f0f2; vertical-align: top; }
+.orders__table th { color: #71717a; font-weight: 600; font-size: 12px; }
+.orders__reason { color: var(--color-accent); font-size: 12px; margin-top: 4px; }

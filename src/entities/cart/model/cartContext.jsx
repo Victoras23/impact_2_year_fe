@@ -14,7 +14,8 @@ export function CartProvider({ children }) {
       setItems((prev) => {
         const found = prev.find((i) => i.id === product.id);
         if (found) return prev.map((i) => i.id === product.id ? { ...i, qty: i.qty + qty } : i);
-        return [...prev, { id: product.id, name: product.name, price: product.price, qty }];
+        // Lecția 18 — prețul final (cu reducere), același pe care îl calculează backend-ul la comandă.
+        return [...prev, { id: product.id, name: product.name, price: product.finalPrice ?? product.price, qty }];
       });
     },
     setQty(id, qty) {
