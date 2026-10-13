@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal, Button, Field, TextInput } from "../../../shared/ui/index.js";
 import { useApiBase } from "../../../shared/api/index.js";
 import { useSession } from "../../../entities/session/index.js";
@@ -13,6 +13,24 @@ export function LoginModal({ open, onClose }) {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
+  // Lecția 16 — după un 429, butonul rămâne blocat până trece Retry-After,
+  // cu numărătoare inversă: nu are rost să trimitem cereri pe care backend-ul
+  // oricum le va refuza.
+  const [blockedUntil, setBlockedUntil] = useState(0);
+  const [now, setNow] = useState(Date.now());
+  const secondsLeft = Math.max(0, Math.ceil((blockedUntil - now) / 1000));
+
+  useEffect(() => {
+    if (!blockedUntil) return undefined;
+    const timer = setInterval(() => {
+      setNow(Date.now());
+      if (Date.now() >= blockedUntil) {
+        setBlockedUntil(0);
+        setError(null);
+      }
+    }, 250);
+    return () => clearInterval(timer);
+  }, [blockedUntil]);
 
   async function submit(e) {
     e.preventDefault();
@@ -25,7 +43,17 @@ export function LoginModal({ open, onClose }) {
       setPassword("");
       onClose();
     } catch (err) {
-      setError(err.message);
+      if (err.status === 429 && err.retryAfter) {
+        setNow(Date.now());
+        setBlockedUntil(Date.now() + err.retryAfter * 1000);
+        setError("Prea multe încercări de pe acest dispozitiv. Așteaptă puțin și încearcă din nou.");
+      } else if (err.status === 401 && err.remaining !== null && err.remaining <= 2) {
+        setError(err.message + (err.remaining === 0
+          ? " — aceasta a fost ultima încercare în acest minut."
+          : " — mai ai " + err.remaining + (err.remaining === 1 ? " încercare" : " încercări") + " în acest minut."));
+      } else {
+        setError(err.message);
+      }
     } finally {
       setBusy(false);
     }
@@ -44,8 +72,9 @@ export function LoginModal({ open, onClose }) {
                      onChange={(e) => setPassword(e.target.value)} />
         </Field>
         {error ? <p className="login-form__error">{error}</p> : null}
-        <Button type="submit" disabled={busy}>
-          {busy ? "Se trimite…" : mode === "login" ? "Intră în cont" : "Creează cont"}
+        <Button type="submit" disabled={busy || secondsLeft > 0}>
+          {secondsLeft > 0 ? "Așteaptă " + secondsLeft + " s"
+            : busy ? "Se trimite…" : mode === "login" ? "Intră în cont" : "Creează cont"}
         </Button>
         <button type="button" className="login-form__switch"
                 onClick={() => { setMode(mode === "login" ? "register" : "login"); setError(null); }}>

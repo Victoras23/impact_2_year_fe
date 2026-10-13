@@ -4,6 +4,7 @@ import { Lesson1Console } from "./Lesson1Console.jsx";
 import { SecurityConsole } from "../../../features/security-console/index.js";
 import { RefreshConsole } from "../../../features/refresh-console/index.js";
 import { RestVsGraphqlConsole } from "../../../features/rest-vs-graphql/index.js";
+import { RateLimitConsole } from "../../../features/rate-limit-console/index.js";
 import "./LessonSection.css";
 
 // Ce se afișează pentru lecția aleasă din meniul de sus.
@@ -350,6 +351,32 @@ export function LessonSection() {
           </p>
         </Card>
         <RestVsGraphqlConsole />
+      </>
+    );
+  }
+
+  if (current.id === 16) {
+    return (
+      <>
+        <Card className="lesson-note">
+          <h2>{current.title}</h2>
+          <p>
+            Backend-ul numără acum cererile fiecărui client (după IP) cu algoritmul <b>token bucket</b>:
+            fiecare cerere ia un jeton din „găleată”; când găleata e goală, răspunsul e{" "}
+            <b>429 Too Many Requests</b>, cu header-ul <code>Retry-After</code> — câte secunde să aștepți.
+          </p>
+          <p>
+            Două găleți per client: <b>login</b> (<code>/api/v1/auth/login</code> și <code>/register</code>) —{" "}
+            <b>5 încercări pe minut</b>, contra ghicirii parolei; și <b>api</b> (restul <code>/api/v1/...</code>{" "}
+            și <code>/graphql</code>) — <b>100 pe minut</b>, reumplută treptat. Gălețile stau în <b>Redis</b>, ca
+            mai multe instanțe ale aplicației (Lecția 17) să numere împreună, nu fiecare separat.
+          </p>
+          <p>
+            Încearcă și din fereastra de autentificare (dreapta sus): după 5 parole greșite, butonul se
+            blochează cu numărătoare inversă, iar după fiecare greșeală vezi câte încercări mai ai.
+          </p>
+        </Card>
+        <RateLimitConsole />
       </>
     );
   }

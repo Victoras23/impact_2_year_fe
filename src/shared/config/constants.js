@@ -66,6 +66,7 @@ export const LESSONS = [
   { id: 13, title: "Lecția 13 — Scalarea Bazei de Date & Problema N+1", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details"] },
   { id: 14, title: "Lecția 14 — Bune Practici pentru API-uri REST", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details"] },
   { id: 15, title: "Lecția 15 — GraphQL vs. API REST", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql"] },
+  { id: 16, title: "Lecția 16 — Rate Limiting & API Throttling", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql"] },
 ];
 
 export const STORAGE_LESSON = "impact.ecom.lesson";

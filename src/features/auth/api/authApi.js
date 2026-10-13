@@ -6,7 +6,18 @@ async function post(baseUrl, path, body) {
   let data = null;
   try { data = JSON.parse(res.text); } catch (e) { /* ignore */ }
   if (res.error) throw new Error("Backend inaccesibil: " + res.error);
-  if (!res.ok) throw new Error((data && data.message) || ("Eroare " + res.status));
+  if (!res.ok) {
+    const err = new Error((data && data.message) || ("Eroare " + res.status));
+    // Lecția 16 — rate limiting: pe 429, Retry-After spune câte secunde să
+    // așteptăm; pe orice răspuns limitat, X-RateLimit-Remaining spune câte
+    // încercări mai sunt. LoginModal le folosește ca să nu lase utilizatorul
+    // să apese degeaba.
+    err.status = res.status;
+    err.retryAfter = Number(res.headers["retry-after"]) || null;
+    const remaining = res.headers["x-ratelimit-remaining"];
+    err.remaining = remaining === undefined ? null : Number(remaining);
+    throw err;
+  }
   return data;
 }
 

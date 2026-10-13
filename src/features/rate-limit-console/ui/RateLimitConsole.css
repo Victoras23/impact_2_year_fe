@@ -1,0 +1,21 @@
+.rl { padding: 16px 20px; margin-top: 16px; }
+.rl__head h3 { margin: 0; font-size: 15px; }
+.rl__panel { border-top: 1px solid #ececef; margin-top: 14px; padding-top: 14px; }
+.rl__panel-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.rl__panel-head h4 { margin: 0; font-size: 14px; flex: 1; }
+.rl__step { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px;
+  border-radius: 50%; background: var(--color-accent); color: #fff; font-size: 12px; font-weight: 700; }
+.rl__hint { color: #71717a; font-size: 13px; margin: 8px 0 0; }
+.rl__hint--bad { color: var(--color-accent); }
+.rl__table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
+.rl__table th, .rl__table td { text-align: left; padding: 4px 6px; border-bottom: 1px solid #f4f4f5; }
+.rl__table th { color: #71717a; font-weight: 600; }
+.rl__table tr.is-blocked td { background: var(--color-bad-bg); }
+.rl__msg { color: #52525b; }
+.rl__verdict { font-size: 13px; margin: 10px 0 0; }
+.rl__retry { margin-top: 8px; }
+.rl__strip { display: flex; flex-wrap: wrap; gap: 2px; margin-top: 10px; }
+.rl__cell { width: 9px; height: 14px; border-radius: 2px; }
+.rl__cell.is-ok { background: var(--color-ok); }
+.rl__cell.is-blocked { background: var(--color-accent); }
+.rl__stats { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 6px; font-size: 13px; }
