@@ -5,6 +5,7 @@ import { SecurityConsole } from "../../../features/security-console/index.js";
 import { RefreshConsole } from "../../../features/refresh-console/index.js";
 import { RestVsGraphqlConsole } from "../../../features/rest-vs-graphql/index.js";
 import { RateLimitConsole } from "../../../features/rate-limit-console/index.js";
+import { LoadBalancerConsole } from "../../../features/lb-console/index.js";
 import "./LessonSection.css";
 
 // Ce se afișează pentru lecția aleasă din meniul de sus.
@@ -377,6 +378,32 @@ export function LessonSection() {
           </p>
         </Card>
         <RateLimitConsole />
+      </>
+    );
+  }
+
+  if (current.id === 17) {
+    return (
+      <>
+        <Card className="lesson-note">
+          <h2>{current.title}</h2>
+          <p>
+            Backend-ul rulează acum în <b>două instanțe</b> (<code>backend-1</code>, <code>backend-2</code>), în spatele
+            lui <b>Nginx</b> — reverse proxy și load balancer. Frontend-ul vorbește în continuare cu{" "}
+            <code>localhost:8080</code>, dar acolo răspunde Nginx, care alege la fiecare cerere o instanță. Fiecare
+            răspuns spune cine l-a servit, în header-ul <code>X-Instance-Id</code>.
+          </p>
+          <p>
+            Algoritmul se schimbă din <code>NGINX_CONF</code>: <b>round-robin</b> (pe rând), <b>least-conn</b> (instanța
+            cea mai liberă) sau <b>ip-hash</b> (același client, mereu aceeași instanță — sticky sessions). Aplicația
+            noastră e <b>stateless</b> (JWT + Redis), deci nu are nevoie de sticky sessions — consola îți arată de ce.
+          </p>
+          <p>
+            Nginx trimite IP-ul tău real în <code>X-Forwarded-For</code>, iar backend-ul îl crede DOAR de la Nginx —
+            așa rate limiting-ul din Lecția 16 numără fiecare client real, comun pentru ambele instanțe.
+          </p>
+        </Card>
+        <LoadBalancerConsole />
       </>
     );
   }
