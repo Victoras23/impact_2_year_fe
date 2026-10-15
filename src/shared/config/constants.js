@@ -33,6 +33,10 @@ export const KAFKA_PATHS = {                           // Lecția 19
   stats: "/api/v1/kafka/stats",
   events: "/api/v1/kafka/events",
 };
+// Kafka UI direct: http://localhost:8090 — trimite „X-Frame-Options: DENY”, deci nu merge în iframe.
+// Pentru modal, Nginx o servește pe portul 8091 fără acel header (nginx/kafka-ui.conf în backend).
+export const KAFKA_UI_DIRECT_PORT = 8090;               // Lecția 19
+export const KAFKA_UI_EMBED_PORT = 8091;                // Lecția 19
 export const ANALYTICS_PATHS = {                       // Lecția 19
   summary: "/api/v1/analytics/summary",
   pause: "/api/v1/analytics/pause",

@@ -1,5 +1,7 @@
-import { useEffect } from "react";
-import { Button, Card, Badge } from "../../../shared/ui/index.js";
+import { useEffect, useState } from "react";
+import { Button, Card, Badge, Modal } from "../../../shared/ui/index.js";
+import { useApiBase } from "../../../shared/api/index.js";
+import { KAFKA_UI_DIRECT_PORT, KAFKA_UI_EMBED_PORT } from "../../../shared/config/index.js";
 import { formatPrice } from "../../../shared/lib/index.js";
 import { useKafkaStats, useEventLog, useLagExperiment, useReplay, useCompare } from "../model/useKafkaExperiments.js";
 import "./KafkaConsole.css";
@@ -9,13 +11,42 @@ import "./KafkaConsole.css";
 export function KafkaConsole() {
   return (
     <Card className="kc">
-      <div className="kc__head"><h3>Consolă Kafka</h3></div>
+      <div className="kc__head"><h3>Consolă Kafka</h3><KafkaUiButton /></div>
       <StatsPanel />
       <EventLogPanel />
       <LagPanel />
       <ReplayPanel />
       <ComparePanel />
     </Card>
+  );
+}
+
+// Același host ca API-ul (de obicei localhost), alt port: Kafka UI nu trece prin backend.
+function kafkaUiUrl(baseUrl, port) {
+  try { const u = new URL(baseUrl); return `${u.protocol}//${u.hostname}:${port}/`; }
+  catch { return `http://localhost:${port}/`; }
+}
+
+function KafkaUiButton() {
+  const [open, setOpen] = useState(false);
+  const { baseUrl } = useApiBase();
+  const direct = kafkaUiUrl(baseUrl, KAFKA_UI_DIRECT_PORT);
+  return (
+    <>
+      <Button variant="ghost" size="sm" onClick={() => setOpen(true)}>Deschide Kafka UI</Button>
+      <Modal open={open} onClose={() => setOpen(false)} title="Kafka UI — topicuri, mesaje, consumer groups" size="lg">
+        {open ? (
+          <div className="kc__ui">
+            <p className="kc__ui-bar">
+              Prin Nginx, portul {KAFKA_UI_EMBED_PORT} (fără <code>X-Frame-Options</code>). Pagina goală? Repornește Nginx:{" "}
+              <code>docker compose up -d --no-deps nginx</code> ·{" "}
+              <a href={direct} target="_blank" rel="noreferrer">deschide în tab nou ({KAFKA_UI_DIRECT_PORT})</a>
+            </p>
+            <iframe className="kc__ui-frame" src={kafkaUiUrl(baseUrl, KAFKA_UI_EMBED_PORT)} title="Kafka UI" />
+          </div>
+        ) : null}
+      </Modal>
+    </>
   );
 }
 
@@ -57,7 +88,7 @@ function StatsPanel() {
       <p className="kc__hint">
         <code>GET /api/v1/kafka/stats</code> — pentru fiecare partiție: câte evenimente are (offset final), până unde a
         citit grupul <code>analytics</code> (offset salvat), diferența (<b>lag</b>) și ce instanță o citește. Interfața
-        completă: <code>http://localhost:8090</code>.
+        completă: butonul „Deschide Kafka UI” de sus.
       </p>
       <Common state={state} />
       {state.kind === "done" && (
