@@ -7,6 +7,7 @@ import { RestVsGraphqlConsole } from "../../../features/rest-vs-graphql/index.js
 import { RateLimitConsole } from "../../../features/rate-limit-console/index.js";
 import { LoadBalancerConsole } from "../../../features/lb-console/index.js";
 import { MessageQueueConsole } from "../../../features/mq-console/index.js";
+import { KafkaConsole } from "../../../features/kafka-console/index.js";
 import "./LessonSection.css";
 
 // Ce se afișează pentru lecția aleasă din meniul de sus.
@@ -431,6 +432,31 @@ export function LessonSection() {
           </p>
         </Card>
         <MessageQueueConsole />
+      </>
+    );
+  }
+
+  if (current.id === 19) {
+    return (
+      <>
+        <Card className="lesson-note">
+          <h2>{current.title}</h2>
+          <p>
+            În Lecția 18, RabbitMQ a primit <b>munca</b>: „confirmă comanda asta”. Mesajul a fost consumat și a dispărut.
+            Azi trimitem în <b>Kafka</b> și <b>faptele</b>: <code>ORDER_PLACED</code>, <code>ORDER_CONFIRMED</code>,{" "}
+            <code>ORDER_REJECTED</code>, <code>STOCK_CHANGED</code>. Ele rămân într-un <b>jurnal</b> (topic), împărțit în
+            3 partiții, și pot fi citite de oricine, de câte ori vrea.
+          </p>
+          <p>
+            Un <b>handler separat</b> — grupul de consumatori <code>analytics</code>, pe ambele instanțe — citește
+            evenimentele și construiește „Statistici vânzări” (vezi secțiunea din magazin). Nu citește tabelele
+            comenzilor: dacă îi ștergi datele, le reconstruiește din jurnal (replay).
+          </p>
+          <p>
+            Autentifică-te ca <b>admin</b>, plasează câteva comenzi și rulează consola de mai jos.
+          </p>
+        </Card>
+        <KafkaConsole />
       </>
     );
   }

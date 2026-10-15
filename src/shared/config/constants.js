@@ -28,6 +28,17 @@ export const MQ_PATHS = {                              // Lecția 18
   poison: "/api/v1/mq/poison",
   dlq: "/api/v1/mq/dlq",
 };
+// Lecția 19 — Kafka: starea topicurilor / grupului și statisticile handler-ului „analytics”.
+export const KAFKA_PATHS = {                           // Lecția 19
+  stats: "/api/v1/kafka/stats",
+  events: "/api/v1/kafka/events",
+};
+export const ANALYTICS_PATHS = {                       // Lecția 19
+  summary: "/api/v1/analytics/summary",
+  pause: "/api/v1/analytics/pause",
+  resume: "/api/v1/analytics/resume",
+  replay: "/api/v1/analytics/replay",
+};
 export const AUTH_PATHS = {                          // Lecția 2
   login: "/api/v1/auth/login",
   register: "/api/v1/auth/register",
@@ -55,7 +66,8 @@ export const LESSON = 1;
 //   available: false  = apare în listă, dar nu se poate alege încă.
 //   shows: []         = ce secțiuni / funcții ale magazinului sunt vizibile la acea lecție.
 //                       Chei posibile: "catalog", "admin", "cart", "auth", "swagger", "cache", "env", "details", "graphql",
-//                       "orders" (Lecția 18 — coșul trimite comanda la backend + „Comenzile mele”).
+//                       "orders" (Lecția 18 — coșul trimite comanda la backend + „Comenzile mele”),
+//                       "analytics" (Lecția 19 — „Statistici vânzări”, construite din evenimentele Kafka).
 //                       Secțiunea lecției curente (consola de practică) e mereu vizibilă.
 // Pe măsură ce construiți o secțiune, adăugați cheia ei la lecțiile de la care apare.
 export const LESSONS = [
@@ -77,6 +89,7 @@ export const LESSONS = [
   { id: 16, title: "Lecția 16 — Rate Limiting & API Throttling", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql"] },
   { id: 17, title: "Lecția 17 — Load Balancing & Reverse Proxy", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql"] },
   { id: 18, title: "Lecția 18 — Message Queues & RabbitMQ", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql", "cart", "orders"] },
+  { id: 19, title: "Lecția 19 — Event Streaming cu Apache Kafka", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql", "cart", "orders", "analytics"] },
 ];
 
 export const STORAGE_LESSON = "impact.ecom.lesson";

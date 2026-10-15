@@ -1,0 +1,11 @@
+.stats__bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.stats__cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 12px; }
+.stats__card { background: #fff; border: 1px solid #ececef; padding: 12px 14px; display: grid; gap: 4px; }
+.stats__card span { color: #71717a; font-size: 12px; }
+.stats__card b { font-size: 20px; }
+.stats__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 16px; }
+.stats__grid h4 { margin: 0 0 8px; font-size: 14px; }
+.stats__table { width: 100%; border-collapse: collapse; font-size: 13px; background: #fff; }
+.stats__table th, .stats__table td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #f0f0f2; }
+.stats__table th { color: #71717a; font-size: 12px; font-weight: 600; }
+.stats__alerts { margin: 0; padding-left: 18px; font-size: 13px; display: grid; gap: 4px; }

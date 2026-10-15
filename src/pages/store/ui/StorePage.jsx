@@ -13,6 +13,7 @@ import { SearchBox } from "../../../features/search-products/index.js";
 import { ProductDetailsModal } from "../../../features/product-details/index.js";
 import { ProductFormModal, ProductAdminList } from "../../../features/product-crud/index.js";
 import { MyOrders } from "../../../features/my-orders/index.js";
+import { SalesStats } from "../../../features/sales-stats/index.js";
 import { LessonSection } from "../../lesson/index.js";
 import "./StorePage.css";
 
@@ -230,6 +231,20 @@ export function StorePage() {
             </p>
           </div>
           <MyOrders />
+        </section>
+      )}
+
+      {shows("analytics") && (
+        <section id="analytics" className="store__section">
+          <div className="section-head">
+            <h2>Statistici vânzări</h2>
+            <p>
+              Construite de handler-ul <b>analytics</b> doar din evenimentele Kafka (<code>shop.orders</code>,{" "}
+              <code>shop.stock</code>) — fără să citească tabelele comenzilor. Pot fi șterse și reconstruite oricând
+              din jurnal (replay, în consola Lecției 19).
+            </p>
+          </div>
+          <SalesStats />
         </section>
       )}
 
