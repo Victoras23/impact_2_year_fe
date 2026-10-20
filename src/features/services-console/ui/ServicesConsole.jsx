@@ -1,4 +1,5 @@
-import { Badge, Button, Card } from "../../../shared/ui/index.js";
+import { useState } from "react";
+import { Badge, Button, Card, Modal } from "../../../shared/ui/index.js";
 import { useApiBase } from "../../../shared/api/index.js";
 import { useEurekaServices, useRedeployWatch, useRouteTrace, WATCH_SECONDS } from "../model/useServicesConsole.js";
 import { eurekaUrl } from "../model/servicesApi.js";
@@ -9,7 +10,7 @@ import "./ServicesConsole.css";
 export function ServicesConsole() {
   return (
     <Card className="svc">
-      <div className="svc__head"><h3>Consolă servicii</h3></div>
+      <div className="svc__head"><h3>Consolă servicii</h3><EurekaButton /></div>
       <EurekaPanel />
       <TracePanel />
       <RedeployPanel />
@@ -19,6 +20,31 @@ export function ServicesConsole() {
 
 const SERVICE_CLASS = { gateway: "is-gw", monolith: "is-mono", "orders-service": "is-orders" };
 
+
+// Dashboard-ul Eureka, într-un modal — ca Swagger și Kafka UI. Eureka nu trimite X-Frame-Options,
+// deci îl punem direct în iframe, de pe portul 8761 (fără proxy prin Nginx).
+function EurekaButton() {
+  const [open, setOpen] = useState(false);
+  const { baseUrl } = useApiBase();
+  const url = eurekaUrl(baseUrl);
+  return (
+    <>
+      <Button variant="ghost" size="sm" onClick={() => setOpen(true)}>Deschide Eureka</Button>
+      <Modal open={open} onClose={() => setOpen(false)} title="Eureka — serviciile înscrise" size="lg">
+        {open ? (
+          <div className="svc__ui">
+            <p className="svc__ui-bar">
+              Dashboard-ul Eureka, direct de pe portul 8761. Pagina goală? Pornește discovery:{" "}
+              <code>docker compose up -d discovery</code> ·{" "}
+              <a href={url} target="_blank" rel="noreferrer">deschide în tab nou</a>
+            </p>
+            <iframe className="svc__ui-frame" src={url} title="Eureka" />
+          </div>
+        ) : null}
+      </Modal>
+    </>
+  );
+}
 function shortId(instanceId) {
   const id = String(instanceId || "?");
   const part = id.includes(":") ? id.slice(id.indexOf(":") + 1) : id;
@@ -62,13 +88,11 @@ function NoGateway({ status }) {
 }
 
 function EurekaPanel() {
-  const { baseUrl } = useApiBase();
   const { state, live, setLive } = useEurekaServices();
   return (
     <section className="svc__panel">
       <PanelHead step="1" title="Ce știe Eureka (live, la 2 s)">
         <Button size="sm" variant="ghost" onClick={() => setLive(!live)}>{live ? "Pauză" : "Pornește"}</Button>
-        <a className="svc__link" href={eurekaUrl(baseUrl)} target="_blank" rel="noreferrer">Dashboard Eureka ↗</a>
       </PanelHead>
       <p className="svc__hint">
         Fiecare serviciu se înscrie în Eureka la pornire, cu versiunea lui. Gateway-ul citește lista și trimite
