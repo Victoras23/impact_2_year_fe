@@ -94,6 +94,7 @@ export const LESSONS = [
   { id: 17, title: "Lecția 17 — Load Balancing & Reverse Proxy", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql"] },
   { id: 18, title: "Lecția 18 — Message Queues & RabbitMQ", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql", "cart", "orders"] },
   { id: 19, title: "Lecția 19 — Event Streaming cu Apache Kafka", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql", "cart", "orders", "analytics"] },
+  { id: 20, title: "Lecția 20 — Introducere în Arhitectura Microservicii", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql", "cart", "orders", "analytics"] },
 ];
 
 export const STORAGE_LESSON = "impact.ecom.lesson";

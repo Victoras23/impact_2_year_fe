@@ -8,6 +8,7 @@ import { RateLimitConsole } from "../../../features/rate-limit-console/index.js"
 import { LoadBalancerConsole } from "../../../features/lb-console/index.js";
 import { MessageQueueConsole } from "../../../features/mq-console/index.js";
 import { KafkaConsole } from "../../../features/kafka-console/index.js";
+import { MicroservicesRoadmap } from "../../../features/microservices-roadmap/index.js";
 import "./LessonSection.css";
 
 // Ce se afișează pentru lecția aleasă din meniul de sus.
@@ -457,6 +458,32 @@ export function LessonSection() {
           </p>
         </Card>
         <KafkaConsole />
+      </>
+    );
+  }
+
+  if (current.id === 20) {
+    return (
+      <>
+        <Card className="lesson-note">
+          <h2>{current.title}</h2>
+          <p>
+            Magazinul a crescut: catalog, conturi, comenzi, RabbitMQ, Kafka — toate într-o singură aplicație, un{" "}
+            <b>monolit</b>. Azi îl împărțim, deocamdată pe hârtie și în cod, în 3 <b>servicii candidate</b>:{" "}
+            <b>Catalog</b>, <b>Comenzi</b> și <b>Utilizatori</b>. Fiecare cu tabelele și endpoint-urile lui.
+          </p>
+          <p>
+            Regula: un serviciu nu atinge direct clasele altuia. Comenzile foloseau <code>ProductRepository</code>,{" "}
+            <code>UserRepository</code> și entitatea <code>User</code> — un test (ArchUnit) a găsit 22 de astfel de
+            legături. Acum comenzile vorbesc cu celelalte doar prin <code>CatalogClient</code> și{" "}
+            <code>UserClient</code>, iar testul găsește 0.
+          </p>
+          <p>
+            Magazinul funcționează exact ca în Lecția 19 — plasează o comandă ca să verifici. Diferența e în cod: în
+            Lecția 21, serviciul de comenzi pleacă din monolit, iar în spatele acelorași interfețe vor fi apeluri HTTP.
+          </p>
+        </Card>
+        <MicroservicesRoadmap />
       </>
     );
   }
