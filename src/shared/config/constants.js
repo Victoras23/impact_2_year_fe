@@ -2,7 +2,8 @@
 
 export const APP_NAME = "impact E-COMMERCE";
 
-// Backend-ul de referință.
+// Backend-ul de referință. Din Lecția 21, 8080 e API gateway-ul — intrarea unică
+// (monolitul a trecut pe 8081, serviciul de comenzi pe 8082, Eureka pe 8761).
 export const DEFAULT_API_BASE = "http://localhost:8080";
 // Lecția 14 — /api/practice rămâne NEVERSIONAT intenționat: e consola de
 // practică a Lecției 1, nu o parte a contractului "real" al API-ului de
@@ -95,6 +96,7 @@ export const LESSONS = [
   { id: 18, title: "Lecția 18 — Message Queues & RabbitMQ", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql", "cart", "orders"] },
   { id: 19, title: "Lecția 19 — Event Streaming cu Apache Kafka", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql", "cart", "orders", "analytics"] },
   { id: 20, title: "Lecția 20 — Introducere în Arhitectura Microservicii", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql", "cart", "orders", "analytics"] },
+  { id: 21, title: "Lecția 21 — Comunicare între Servicii & Service Discovery", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql", "cart", "orders", "analytics"] },
 ];
 
 export const STORAGE_LESSON = "impact.ecom.lesson";

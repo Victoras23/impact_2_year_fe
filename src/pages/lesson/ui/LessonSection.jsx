@@ -9,6 +9,7 @@ import { LoadBalancerConsole } from "../../../features/lb-console/index.js";
 import { MessageQueueConsole } from "../../../features/mq-console/index.js";
 import { KafkaConsole } from "../../../features/kafka-console/index.js";
 import { MicroservicesRoadmap } from "../../../features/microservices-roadmap/index.js";
+import { ServicesConsole } from "../../../features/services-console/index.js";
 import "./LessonSection.css";
 
 // Ce se afișează pentru lecția aleasă din meniul de sus.
@@ -484,6 +485,33 @@ export function LessonSection() {
           </p>
         </Card>
         <MicroservicesRoadmap />
+      </>
+    );
+  }
+
+  if (current.id === 21) {
+    return (
+      <>
+        <Card className="lesson-note">
+          <h2>{current.title}</h2>
+          <p>
+            Comenzile au plecat din monolit. Acum sunt <b>două aplicații</b>, fiecare cu baza ei de date: monolitul
+            (catalog + conturi) și <code>orders-service</code> (comenzi, RabbitMQ, Kafka, statistici). În față stă un{" "}
+            <b>API gateway</b>: frontendul vorbește doar cu el, pe <code>:8080</code>, iar el trimite fiecare cerere la
+            serviciul potrivit.
+          </p>
+          <p>
+            Cum se găsesc între ele? Prin <b>Eureka</b> (service discovery): fiecare serviciu se înscrie la pornire, iar
+            gateway-ul și comenzile caută după <b>nume</b>. Comenzile cer catalogului prețuri și stoc prin HTTP, cu{" "}
+            <b>OpenFeign</b> — <code>HttpCatalogClient</code> a luat locul lui <code>LocalCatalogClient</code>, iar{" "}
+            <code>OrderService</code> nu s-a schimbat.
+          </p>
+          <p>
+            Magazinul arată la fel. Plasează o comandă, apoi folosește consola de mai jos: vezi serviciile din Eureka,
+            unde ajunge fiecare cerere și ce se întâmplă când redeployezi <b>doar</b> comenzile.
+          </p>
+        </Card>
+        <ServicesConsole />
       </>
     );
   }
