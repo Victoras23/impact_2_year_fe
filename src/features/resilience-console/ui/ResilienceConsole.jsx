@@ -46,7 +46,15 @@ function BreakerPanel({ stats }) {
     <section className="res__panel">
       <PanelHead step="1" title="Circuitul spre monolit (live, la 1 s)" />
       {state.kind === "down" && <p className="res__hint res__hint--bad">Gateway-ul nu răspunde. Pornește sistemul din impact_2_year_infra.</p>}
-      {state.kind === "error" && <p className="res__hint res__hint--bad">Răspuns {state.status}: serviciul de comenzi nu are încă Lecția 22?</p>}
+      {state.kind === "error" && (
+        <p className="res__hint res__hint--bad">
+          {state.status === 404
+            ? <>Răspuns 404: gateway-ul sau serviciul de comenzi nu are încă Lecția 22 — <code>docker compose up -d --build orders-service gateway</code>.</>
+            : <>Răspuns {state.status}: lipsesc tabelele Lecției 22? Rulează din impact_2_year_infra{" "}
+                <code>docker/migrations/lesson-22-outbox.sql</code> (orders-db) și{" "}
+                <code>lesson-22-stock-reservations.sql</code> (postgres).</>}
+        </p>
+      )}
       {data && !cb && <p className="res__hint">Circuitul apare după primul apel spre monolit — plasează o comandă.</p>}
       {cb && (
         <div className="res__breaker">
