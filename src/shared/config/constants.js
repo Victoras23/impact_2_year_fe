@@ -97,6 +97,7 @@ export const LESSONS = [
   { id: 19, title: "Lecția 19 — Event Streaming cu Apache Kafka", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql", "cart", "orders", "analytics"] },
   { id: 20, title: "Lecția 20 — Introducere în Arhitectura Microservicii", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql", "cart", "orders", "analytics"] },
   { id: 21, title: "Lecția 21 — Comunicare între Servicii & Service Discovery", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql", "cart", "orders", "analytics"] },
+  { id: 22, title: "Lecția 22 — Pattern-uri de Reziliență & Tranzacții Distribuite", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql", "cart", "orders", "analytics"] },
 ];
 
 export const STORAGE_LESSON = "impact.ecom.lesson";

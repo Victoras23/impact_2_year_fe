@@ -10,6 +10,7 @@ import { MessageQueueConsole } from "../../../features/mq-console/index.js";
 import { KafkaConsole } from "../../../features/kafka-console/index.js";
 import { MicroservicesRoadmap } from "../../../features/microservices-roadmap/index.js";
 import { ServicesConsole } from "../../../features/services-console/index.js";
+import { ResilienceConsole } from "../../../features/resilience-console/index.js";
 import "./LessonSection.css";
 
 // Ce se afișează pentru lecția aleasă din meniul de sus.
@@ -512,6 +513,30 @@ export function LessonSection() {
           </p>
         </Card>
         <ServicesConsole />
+      </>
+    );
+  }
+
+  if (current.id === 22) {
+    return (
+      <>
+        <Card className="lesson-note">
+          <h2>{current.title}</h2>
+          <p>
+            În Lecția 21 am văzut ce costă rețeaua: un monolit căzut era întrebat din nou la fiecare comandă (iar unul
+            „agățat” o ținea până la timeout), o comandă respinsă lăsa stocul primei linii rezervat pentru totdeauna, iar
+            un mesaj trimis cu RabbitMQ oprit se pierdea. Azi le reparăm.
+          </p>
+          <p>
+            <b>Retry + circuit breaker</b> (Resilience4j) pe apelurile spre monolit: o eroare scurtă se reîncearcă, iar
+            un monolit căzut e „închis” — cererile primesc imediat 503, fără să mai aștepte. <b>Saga</b>: comanda
+            respinsă trimite un pas de compensare, iar catalogul pune stocul înapoi (rezervările țin minte comanda, deci
+            nimic nu se dă de două ori). <b>Outbox</b>: mesajele pentru RabbitMQ se salvează odată cu comanda și nu se mai
+            pierd când brokerul e oprit.
+          </p>
+          <p>Folosește consola de mai jos: oprește pe rând monolitul și RabbitMQ și urmărește ce se întâmplă.</p>
+        </Card>
+        <ResilienceConsole />
       </>
     );
   }
