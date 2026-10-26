@@ -11,6 +11,7 @@ import { KafkaConsole } from "../../../features/kafka-console/index.js";
 import { MicroservicesRoadmap } from "../../../features/microservices-roadmap/index.js";
 import { ServicesConsole } from "../../../features/services-console/index.js";
 import { ResilienceConsole } from "../../../features/resilience-console/index.js";
+import { K8sConsole } from "../../../features/k8s-console/index.js";
 import "./LessonSection.css";
 
 // Ce se afișează pentru lecția aleasă din meniul de sus.
@@ -537,6 +538,34 @@ export function LessonSection() {
           <p>Folosește consola de mai jos: oprește pe rând monolitul și RabbitMQ și urmărește ce se întâmplă.</p>
         </Card>
         <ResilienceConsole />
+      </>
+    );
+  }
+
+  if (current.id === 23) {
+    return (
+      <>
+        <Card className="lesson-note">
+          <h2>{current.title}</h2>
+          <p>
+            Până acum, <code>docker compose</code> pornea containerele — și atât. Dacă unul murea, rămânea mort până îl
+            porneai tu. Azi monolitul, Postgres și Redis rulează într-un <b>cluster Kubernetes</b> pe laptop (kind), iar
+            noi doar spunem <b>ce vrem</b>: „un pod cu imaginea <code>impact-monolith:1.0.0</code>”. Kubernetes se ocupă
+            să fie mereu acolo.
+          </p>
+          <p>
+            Piesele: <b>Pod</b> (containerul care rulează), <b>Deployment</b> (păstrează numărul de poduri și face altul
+            când unul dispare), <b>Service</b> (un nume și o adresă stabilă în fața podurilor — <code>postgres</code>,{" "}
+            <code>redis</code>, <code>monolith</code>), <b>ConfigMap</b> și <b>Secret</b> (configurația și parolele, ca
+            variabile de mediu — exact ca în Lecția 6) și un <b>StatefulSet</b> cu disc pentru Postgres.
+          </p>
+          <p>
+            Monolitul din cluster răspunde pe <code>localhost:8081</code>. Apasă „Folosește clusterul” în consola de mai
+            jos: catalogul și contul merg prin Kubernetes. Coșul și comenzile lipsesc azi — serviciul de comenzi intră în
+            cluster în Lecția 24.
+          </p>
+        </Card>
+        <K8sConsole />
       </>
     );
   }
