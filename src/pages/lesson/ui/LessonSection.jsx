@@ -12,6 +12,7 @@ import { MicroservicesRoadmap } from "../../../features/microservices-roadmap/in
 import { ServicesConsole } from "../../../features/services-console/index.js";
 import { ResilienceConsole } from "../../../features/resilience-console/index.js";
 import { K8sConsole } from "../../../features/k8s-console/index.js";
+import { RolloutConsole } from "../../../features/rollout-console/index.js";
 import "./LessonSection.css";
 
 // Ce se afișează pentru lecția aleasă din meniul de sus.
@@ -566,6 +567,32 @@ export function LessonSection() {
           </p>
         </Card>
         <K8sConsole />
+      </>
+    );
+  }
+
+  if (current.id === 24) {
+    return (
+      <>
+        <Card className="lesson-note">
+          <h2>{current.title}</h2>
+          <p>
+            În Lecția 23 Kubernetes a rulat monolitul — dar un <code>rollout restart</code> a pierdut ~5 s de cereri:
+            Kubernetes credea că podul e gata când pornea containerul. Azi tot magazinul intră în cluster (comenzile,
+            gateway-ul, RabbitMQ, Kafka) și învățăm clusterul să-l actualizeze fără ca cineva să observe.
+          </p>
+          <p>
+            <b>Probe</b>: <i>readiness</i> („pot primi cereri?” — nu → ies din Service) și <i>liveness</i> („sunt viu?” — nu →
+            kubelet mă repornește). <b>Replici</b>: două poduri ale monolitului, iar Service-ul împarte între ele.
+            <b> Rolling update</b>: un pod nou, gata, apoi unul vechi oprit — de la versiunea 1.0.0 la 1.1.0, fără cereri pierdute.
+          </p>
+          <p>
+            <b>Eureka nu mai e în cluster</b>: numele Service-urilor (<code>monolith</code>, <code>orders-service</code>) fac
+            service discovery. Magazinul merge prin gateway, pe <code>localhost:8080</code>; consola de mai jos vorbește și
+            direct cu monolitul, pe <code>8081</code>.
+          </p>
+        </Card>
+        <RolloutConsole />
       </>
     );
   }

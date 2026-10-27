@@ -1,0 +1,32 @@
+.ro { padding: 16px 20px; margin-top: 16px; }
+.ro__head h3 { margin: 0; font-size: 15px; }
+.ro__address { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 10px; font-size: 13px; }
+.ro__panel { border-top: 1px solid #ececef; margin-top: 14px; padding-top: 14px; }
+.ro__panel-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.ro__panel-head h4 { margin: 0; font-size: 14px; flex: 1; }
+.ro__step { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px;
+  border-radius: 50%; background: var(--color-accent); color: #fff; font-size: 12px; font-weight: 700; }
+.ro__hint { color: #71717a; font-size: 13px; margin: 8px 0 0; }
+.ro__hint--inline { margin: 0; font-size: 12px; }
+.ro__hint--bad { color: var(--color-accent); }
+.ro__bars { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.ro__bar { display: grid; grid-template-columns: 170px 1fr 36px; align-items: center; gap: 10px; font-size: 13px; }
+.ro__bar-label em { color: #71717a; font-style: normal; font-size: 12px; }
+.ro__bar-track { background: #f4f4f5; border-radius: 4px; height: 14px; overflow: hidden; }
+.ro__bar-track span { display: block; height: 100%; background: var(--color-accent); }
+.ro__verdict { font-size: 13px; margin: 10px 0 0; }
+.ro__strip { display: flex; gap: 1px; margin-top: 12px; height: 18px; }
+.ro__strip span { flex: 1; border-radius: 1px; max-width: 8px; }
+.ro__totals { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px; font-size: 13px; align-items: center; }
+.ro__dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: middle; }
+.ro__events { list-style: none; padding: 0; margin: 10px 0 0; font-size: 13px; }
+.ro__events li { display: flex; align-items: center; gap: 8px; padding: 2px 0; }
+.ro__events time { color: #a1a1aa; font-size: 12px; min-width: 70px; }
+.ro__steps { font-size: 13px; color: #52525b; margin: 10px 0 0; padding-left: 20px; }
+.ro__steps li { margin: 3px 0; }
+.ro__table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
+.ro__table th, .ro__table td { text-align: left; padding: 5px 6px; border-bottom: 1px solid #f4f4f5; vertical-align: top; }
+.ro__table th { color: #71717a; font-weight: 600; }
+.ro__table tr.is-gone td { opacity: 0.45; }
+.ro__good { color: #1f9d55; font-weight: 700; }
+.ro__bad { color: var(--color-accent); font-weight: 700; }

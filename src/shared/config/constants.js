@@ -100,6 +100,8 @@ export const LESSONS = [
   { id: 22, title: "Lecția 22 — Pattern-uri de Reziliență & Tranzacții Distribuite", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql", "cart", "orders", "analytics"] },
   // Lecția 23 — în cluster rulează doar monolitul: fără coș/comenzi/statistici (serviciul de comenzi vine în Lecția 24).
   { id: 23, title: "Lecția 23 — Fundamentele Kubernetes", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql"] },
+  // Lecția 24 — tot sistemul în cluster (prin gateway, localhost:8080): coșul, comenzile și statisticile revin.
+  { id: 24, title: "Lecția 24 — Microservicii pe Kubernetes", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql", "cart", "orders", "analytics"] },
 ];
 
 export const STORAGE_LESSON = "impact.ecom.lesson";
