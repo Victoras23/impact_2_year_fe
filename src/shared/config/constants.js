@@ -44,6 +44,15 @@ export const ANALYTICS_PATHS = {                       // Lecția 19
   resume: "/api/v1/analytics/resume",
   replay: "/api/v1/analytics/replay",
 };
+// Lecția 25 — notificări push (Firebase Cloud Messaging), servite de orders-service.
+export const PUSH_PATHS = {                            // Lecția 25
+  config: "/api/v1/push/config",
+  tokens: "/api/v1/push/tokens",
+  me: "/api/v1/push/me",
+  test: "/api/v1/push/test",
+};
+// Service worker-ul are nevoie de http(s): pe file:// nu pornește. infra servește pagina aici.
+export const FRONTEND_HTTP_URL = "http://localhost:3000"; // Lecția 25
 export const AUTH_PATHS = {                          // Lecția 2
   login: "/api/v1/auth/login",
   register: "/api/v1/auth/register",
@@ -102,6 +111,8 @@ export const LESSONS = [
   { id: 23, title: "Lecția 23 — Fundamentele Kubernetes", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql"] },
   // Lecția 24 — tot sistemul în cluster (prin gateway, localhost:8080): coșul, comenzile și statisticile revin.
   { id: 24, title: "Lecția 24 — Microservicii pe Kubernetes", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql", "cart", "orders", "analytics"] },
+  // Lecția 25 — înapoi pe docker compose; pagina deschisă pe http://localhost:3000 pentru notificări push.
+  { id: 25, title: "Lecția 25 — Firebase & Notificări Push", available: true, shows: ["catalog", "auth", "swagger", "cache", "env", "admin", "details", "graphql", "cart", "orders", "analytics"] },
 ];
 
 export const STORAGE_LESSON = "impact.ecom.lesson";

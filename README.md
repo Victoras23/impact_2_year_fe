@@ -85,3 +85,12 @@ npm run dev      # build cu watch, nemimificat
   `src/entities/*/api` și `src/features/*/api`; componentele rămân la fel.
 
 `node_modules/` și `dist/` sunt ignorate de Git; `index.html` (build-ul) se comite.
+
+## Lecția 25 — notificări push
+
+- `firebase-messaging-sw.js` (la rădăcină, lângă `index.html`) e **service worker-ul**: primește notificările și când tab-ul e în
+  fundal sau închis. E scris de mână, fără bibliotecă, și se comite ca `index.html`.
+- Service workerii **nu pornesc pe `file://`**: pentru push, pagina se deschide pe **http://localhost:3000** (containerul `frontend`
+  din `impact_2_year_infra`). Restul magazinului merge în continuare la dublu-click.
+- `features/push-console` folosește `firebase` 12.19.0 (`firebase/app`, `firebase/messaging`) doar pentru `getToken` / `deleteToken`.
+  Configurația Firebase nu e în build: o dă backend-ul (`GET /api/v1/push/config`), ca fiecare elev să-și folosească proiectul lui.

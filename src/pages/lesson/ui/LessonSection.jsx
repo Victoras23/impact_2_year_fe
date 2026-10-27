@@ -13,6 +13,7 @@ import { ServicesConsole } from "../../../features/services-console/index.js";
 import { ResilienceConsole } from "../../../features/resilience-console/index.js";
 import { K8sConsole } from "../../../features/k8s-console/index.js";
 import { RolloutConsole } from "../../../features/rollout-console/index.js";
+import { PushConsole } from "../../../features/push-console/index.js";
 import "./LessonSection.css";
 
 // Ce se afișează pentru lecția aleasă din meniul de sus.
@@ -593,6 +594,28 @@ export function LessonSection() {
           </p>
         </Card>
         <RolloutConsole />
+      </>
+    );
+  }
+
+  if (current.id === 25) {
+    return (
+      <>
+        <Card className="lesson-note">
+          <h2>{current.title}</h2>
+          <p>
+            Comanda e confirmată asincron (Lecția 18) — dar clientul află doar dacă stă cu pagina deschisă și reîncarcă.
+            Azi magazinul îl <b>anunță</b>: o notificare push „comanda #N e confirmată”, chiar și cu tab-ul în fundal.
+            O trimite <code>orders-service</code> prin <b>Firebase Cloud Messaging</b>.
+          </p>
+          <p>
+            Drumul: confirmarea salvează în outbox (Lecția 22) un mesaj → RabbitMQ <code>order.status-notification</code> →
+            consumatorul de notificări (Lecția 18) → Firebase → browserul tău. Browserul primește notificarea printr-un
+            <b> service worker</b>, care NU pornește pe o pagină deschisă cu dublu-click — de aceea pagina rulează azi pe
+            <code> http://localhost:3000</code>.
+          </p>
+        </Card>
+        <PushConsole />
       </>
     );
   }
